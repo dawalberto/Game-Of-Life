@@ -4,10 +4,11 @@ document.onload = (() => {
     const sliderValueSelected = document.querySelector('.slider-value-selected')
     const flexSetBoard = document.querySelector('.flex-container-set-board')
     const btnSetBoard = document.querySelector('#button-set-board')
-    const flexBoard = document.querySelector('.flex-container-board')
+    const flexContainerBoard = document.querySelector('.flex-container-board')
+    const board = document.querySelector('.grid-container-board')
 
     let sizeBoard
-    let fields
+    let sizeFields
     let heightAndWidthField 
 
 
@@ -36,17 +37,35 @@ document.onload = (() => {
 
     function setBoard() {
         sizeBoard = slider.value
-        fields = sizeBoard * sizeBoard
+        sizeFields = sizeBoard * sizeBoard
 
-        heightAndWidthField = Math.round(window.outerHeight / sizeBoard) < Math.round(window.outerWidth / sizeBoard) ?
-        Math.round(window.outerHeight / sizeBoard) : Math.round(window.outerWidth / sizeBoard)
+        heightAndWidthField = Math.round((window.innerHeight - 50) / sizeBoard) < Math.round((window.innerWidth - 50) / sizeBoard) ?
+        Math.round((window.innerHeight - 50) / sizeBoard) : Math.round((window.innerWidth - 50) / sizeBoard)
 
         console.log(`the width and height of the fields is ${heightAndWidthField}px`)
     }
 
     function printBoard() {
         console.log('printing board...👨🏻‍🎨⏳')
-        flexBoard.style.display = 'flex'
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .grid-container-board {
+                grid-template-columns: repeat(${sizeBoard}, ${heightAndWidthField}px);
+                grid-template-rows: repeat(${sizeBoard}, ${heightAndWidthField}px);
+            }
+        `;
+        document.head.appendChild(style);
+
+        for(let i = 0; i < sizeFields; i++) {
+            let field = document.createElement('span');
+            field.classList.add(`field${i}`);
+            field.classList.add('field-board');
+            field.textContent = 'field';
+
+            board.appendChild(field)
+        }
+
+        flexContainerBoard.style.display = 'flex'
     }
 
 })()

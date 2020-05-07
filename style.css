@@ -76,3 +76,12 @@ body {
     opacity: 0;
     transition: opacity 800ms;
 }
+
+.grid-container-board {
+    display: grid;
+    gap: 2px;
+}
+
+.field-board {
+    border: 2px solid #2f3542;
+}

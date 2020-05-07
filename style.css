@@ -1,5 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap');
+
 * {
     box-sizing: border-box;
+    font-family: 'Open Sans Condensed', sans-serif;
 }
 
 .flex-container {
@@ -27,5 +30,17 @@
 .slider-value {
     width: 5%;
     text-align: center;
+    margin: 1rem auto;
 }
 
+.slider-value-selected {
+    width: 100%;
+}
+
+.button {
+    text-transform: uppercase;
+}
+
+.button-set {
+    margin: 1rem auto;
+}

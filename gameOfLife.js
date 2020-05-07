@@ -4,7 +4,7 @@ document.onload = (() => {
     const sliderValueSelected = document.querySelector('.slider-value-selected')
 
     slider.addEventListener('input', () => {
-        sliderValueSelected.textContent = slider.value
+        sliderValueSelected.innerHTML = `Board  <br> ${slider.value} x ${slider.value}`
     })
 
 })()

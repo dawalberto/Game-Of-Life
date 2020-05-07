@@ -12,9 +12,15 @@ document.onload = (() => {
         sliderValueSelected.innerHTML = `Board  <br> ${slider.value} x ${slider.value}`
     })
 
-    
+    flexSetBoard.addEventListener('transitionend', displayNone)
+
+
     function setBoard() {
-        flexSetBoard.style.display = 'none'
+        flexSetBoard.classList.add('fade-out')
+    }
+
+    function displayNone() {
+        this.style.display = 'none'
     }
 
 })()

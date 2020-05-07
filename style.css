@@ -44,3 +44,13 @@
 .button-set {
     margin: 1rem auto;
 }
+
+.fade-in {
+    opacity: 1;
+    transition: opacity 800ms;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 800ms;
+}

@@ -4,6 +4,7 @@ document.onload = (() => {
     const sliderValueSelected = document.querySelector('.slider-value-selected')
     const flexSetBoard = document.querySelector('.flex-container-set-board')
     const btnSetBoard = document.querySelector('#button-set-board')
+    const flexBoard = document.querySelector('.flex-container-board')
 
     let sizeBoard
     let fields
@@ -40,11 +41,12 @@ document.onload = (() => {
         heightAndWidthField = Math.round(window.outerHeight / sizeBoard) < Math.round(window.outerWidth / sizeBoard) ?
         Math.round(window.outerHeight / sizeBoard) : Math.round(window.outerWidth / sizeBoard)
 
-        console.log(`Width and height to fields is ${heightAndWidthField}px`)
+        console.log(`the width and height of the fields is ${heightAndWidthField}px`)
     }
 
     function printBoard() {
-        console.log('printing...👨🏻‍🎨⏳')
+        console.log('printing board...👨🏻‍🎨⏳')
+        flexBoard.style.display = 'flex'
     }
 
 })()

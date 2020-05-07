@@ -66,6 +66,7 @@ document.onload = (() => {
         }
 
         flexContainerBoard.style.display = 'flex'
+        console.log('printed!👨🏻‍🎨')
     }
 
 })()

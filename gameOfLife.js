@@ -5,22 +5,46 @@ document.onload = (() => {
     const flexSetBoard = document.querySelector('.flex-container-set-board')
     const btnSetBoard = document.querySelector('#button-set-board')
 
+    let sizeBoard
+    let fields
+    let heightAndWidthField 
 
-    btnSetBoard.onclick = setBoard
+
+    const eventBoardSetted = new Event('boardSetted')
+
+    btnSetBoard.onclick = setBoardClick
 
     slider.addEventListener('input', () => {
         sliderValueSelected.innerHTML = `Board  <br> ${slider.value} x ${slider.value}`
     })
 
-    flexSetBoard.addEventListener('transitionend', displayNone)
+    flexSetBoard.addEventListener('transitionend', boardSetted)
+
+    document.addEventListener('boardSetted', printBoard)
 
 
-    function setBoard() {
+    function setBoardClick() {        
+        setBoard()
         flexSetBoard.classList.add('fade-out')
     }
 
-    function displayNone() {
+    function boardSetted() {
         this.style.display = 'none'
+        document.dispatchEvent(eventBoardSetted)
+    }
+
+    function setBoard() {
+        sizeBoard = slider.value
+        fields = sizeBoard * sizeBoard
+
+        heightAndWidthField = Math.round(window.outerHeight / sizeBoard) < Math.round(window.outerWidth / sizeBoard) ?
+        Math.round(window.outerHeight / sizeBoard) : Math.round(window.outerWidth / sizeBoard)
+
+        console.log(`Width and height to fields is ${heightAndWidthField}px`)
+    }
+
+    function printBoard() {
+        console.log('printing...👨🏻‍🎨⏳')
     }
 
 })()

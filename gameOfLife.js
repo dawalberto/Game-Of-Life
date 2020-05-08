@@ -60,7 +60,6 @@ document.onload = (() => {
             let field = document.createElement('span');
             field.classList.add(`field${i}`);
             field.classList.add('field-board');
-            field.textContent = 'field';
 
             board.appendChild(field)
         }

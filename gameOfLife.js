@@ -8,8 +8,8 @@ document.onload = (() => {
     const board = document.querySelector('.grid-container-board')
 
     let sizeBoard
-    let sizeFields
-    let heightAndWidthField 
+    let sizeCells
+    let heightAndWidthCell 
 
 
     const eventBoardSetted = new Event('boardSetted')
@@ -37,12 +37,12 @@ document.onload = (() => {
 
     function setBoard() {
         sizeBoard = slider.value
-        sizeFields = sizeBoard * sizeBoard
+        sizeCells = sizeBoard * sizeBoard
 
-        heightAndWidthField = Math.round((window.innerHeight - 50) / sizeBoard) < Math.round((window.innerWidth - 50) / sizeBoard) ?
+        heightAndWidthCell = Math.round((window.innerHeight - 50) / sizeBoard) < Math.round((window.innerWidth - 50) / sizeBoard) ?
         Math.round((window.innerHeight - 50) / sizeBoard) : Math.round((window.innerWidth - 50) / sizeBoard)
 
-        console.log(`the width and height of the fields is ${heightAndWidthField}px`)
+        console.log(`the width and height of the cells is ${heightAndWidthCell}px`)
     }
 
     function printBoard() {
@@ -50,22 +50,26 @@ document.onload = (() => {
         const style = document.createElement('style');
         style.innerHTML = `
             .grid-container-board {
-                grid-template-columns: repeat(${sizeBoard}, ${heightAndWidthField}px);
-                grid-template-rows: repeat(${sizeBoard}, ${heightAndWidthField}px);
+                grid-template-columns: repeat(${sizeBoard}, ${heightAndWidthCell}px);
+                grid-template-rows: repeat(${sizeBoard}, ${heightAndWidthCell}px);
             }
         `;
         document.head.appendChild(style);
 
-        for(let i = 0; i < sizeFields; i++) {
-            let field = document.createElement('span');
-            field.classList.add(`field${i}`);
-            field.classList.add('field-board');
+        for(let i = 0; i < sizeCells; i++) {
+            let cell = document.createElement('span');
+            cell.classList.add(`cell-${i + 1}`);
+            cell.classList.add('cell-board');
 
-            board.appendChild(field)
+            board.appendChild(cell)
         }
 
         flexContainerBoard.style.display = 'flex'
         console.log('printed!👨🏻‍🎨')
+    }
+
+    function getNeighborsCells() {
+
     }
 
 })()

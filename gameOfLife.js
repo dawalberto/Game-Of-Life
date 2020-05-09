@@ -1,10 +1,23 @@
 document.onload = (() => {
 
     class Cell {
+        /*
+        Types 
+            eu Edge Up
+            er Edge Right
+            el Edge Left
+            eb Edge Bottom
+            clu Corner Left Up
+            cru Corner Right Up
+            crb Corner Right Bottom
+            clb Corner Left Bottom
+            m Middle
+        */
 
         constructor(num, type = 'm') {
             this.num = num
             this.type = type
+            cellsCreated.push(num)
         }
 
         alive = false
@@ -24,6 +37,7 @@ document.onload = (() => {
     let heightAndWidthCell 
 
     const cells = []
+    const cellsCreated = []
 
 
     const eventBoardSetted = new Event('boardSetted')
@@ -84,15 +98,17 @@ document.onload = (() => {
         console.log('printed!👨🏻‍🎨')
 
         console.log('getting type of cells...⚙️⏳')
-        getCornersCells()
-        getEdgesCells()
+        getCornerCells()
+        getEdgeCells()
+        getMiddleCells()
         console.log('done! ⚙️')
+        console.log(`cells ${cells.length}`)
         cells.forEach(cell => {
             console.log(cell)
         })
     }
 
-    function getEdgesCells() {
+    function getEdgeCells() {
         let edge = sizeBoard
 
         for (let i = 0; i < sizeBoard; i++) {
@@ -120,19 +136,30 @@ document.onload = (() => {
         }
     }
 
-    function getCornersCells() {
+    function getCornerCells() {
         let cell = new Cell(1, 'clu')
         cells.push(cell)
+        cellsCreated.push(1)
 
         cell = new Cell(sizeBoard, 'cru')
         cells.push(cell)
+        cellsCreated.push(sizeBoard)
 
         cell = new Cell(sizeCells, 'crb')
         cells.push(cell)
 
         cell = new Cell(sizeCells - (sizeBoard - 1), 'clb')
         cells.push(cell)
+        cellsCreated.push(sizeCells - (sizeBoard - 1))
     }
 
+    function getMiddleCells() {
+        for (let i = sizeBoard; i < sizeCells - sizeBoard; i++) {
+            if (!cellsCreated.includes(i)) {
+                let cell = new Cell(i)
+                cells.push(cell)
+            }
+        }
+    }
 
 })()

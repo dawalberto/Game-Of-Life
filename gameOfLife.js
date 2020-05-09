@@ -2,7 +2,7 @@ document.onload = (() => {
 
     class Cell {
 
-        constructor(num, type = 'middle') {
+        constructor(num, type = 'm') {
             this.num = num
             this.type = type
         }
@@ -23,14 +23,7 @@ document.onload = (() => {
     let sizeCells
     let heightAndWidthCell 
 
-    const arrayEdgesUp = []
-    const arrayEdgesRight = []
-    const arrayEdgesBottom = []
-    const arrayEdgesLeft = []
-    let cornerLeftUp = 1
-    let cornerRightUp
-    let cornerLeftBottom
-    let cornerRightBottom 
+    const cells = []
 
 
     const eventBoardSetted = new Event('boardSetted')
@@ -59,9 +52,6 @@ document.onload = (() => {
     function setBoard() {
         sizeBoard = Number(slider.value)
         sizeCells = sizeBoard * sizeBoard
-        cornerRightUp = sizeBoard
-        cornerRightBottom = sizeCells
-        cornerLeftBottom = sizeCells - (sizeBoard - 1)
 
         heightAndWidthCell = Math.round((window.innerHeight - 50) / sizeBoard) < Math.round((window.innerWidth - 50) / sizeBoard) ?
         Math.round((window.innerHeight - 50) / sizeBoard) : Math.round((window.innerWidth - 50) / sizeBoard)
@@ -94,17 +84,12 @@ document.onload = (() => {
         console.log('printed!👨🏻‍🎨')
 
         console.log('getting type of cells...⚙️⏳')
+        getCornersCells()
         getEdgesCells()
         console.log('done! ⚙️')
-        console.log(`
-        cornerLeftUp ${cornerLeftUp} \n
-        cornerRightUp ${cornerRightUp} \n
-        cornerLeftBottom ${cornerLeftBottom} \n
-        cornerRightBottom ${cornerRightBottom} \n
-        arrayEdgesUp ${arrayEdgesUp} \n
-        arrayEdgesLeft ${arrayEdgesLeft} \n
-        arrayEdgesBottom ${arrayEdgesBottom} \n
-        arrayEdgesRight ${arrayEdgesRight} \n`)
+        cells.forEach(cell => {
+            console.log(cell)
+        })
     }
 
     function getEdgesCells() {
@@ -112,23 +97,41 @@ document.onload = (() => {
 
         for (let i = 0; i < sizeBoard; i++) {
             if (i > 1 && i < sizeBoard) {
-                arrayEdgesUp.push(i)
+                let cell = new Cell(i, 'eu')
+                cells.push(cell)
             }
 
             if (edge > sizeBoard && edge < sizeCells) {
-                arrayEdgesRight.push(edge)
+                let cell = new Cell(edge, 'er')
+                cells.push(cell)
             }
 
             if (edge + 1 < sizeCells - sizeBoard) {
-                arrayEdgesLeft.push(edge + 1)
+                let cell = new Cell(edge + 1, 'el')
+                cells.push(cell)
             }
             
             if (sizeCells - (i + 1) > sizeCells - (sizeBoard - 1)) {
-                arrayEdgesBottom.push(sizeCells - (i + 1))
+                let cell = new Cell(sizeCells - (i + 1), 'eb')
+                cells.push(cell)
             }
 
             edge += sizeBoard
         }
+    }
+
+    function getCornersCells() {
+        let cell = new Cell(1, 'clu')
+        cells.push(cell)
+
+        cell = new Cell(sizeBoard, 'cru')
+        cells.push(cell)
+
+        cell = new Cell(sizeCells, 'crb')
+        cells.push(cell)
+
+        cell = new Cell(sizeCells - (sizeBoard - 1), 'clb')
+        cells.push(cell)
     }
 
 

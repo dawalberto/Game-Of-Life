@@ -1,5 +1,17 @@
 document.onload = (() => {
 
+    class Cell {
+
+        constructor(num, type) {
+            this.num = num
+            this.type = type
+        }
+
+        alive = false
+        neighbors = []
+
+    }
+
     const slider = document.querySelector('.slider')
     const sliderValueSelected = document.querySelector('.slider-value-selected')
     const flexSetBoard = document.querySelector('.flex-container-set-board')
@@ -10,6 +22,11 @@ document.onload = (() => {
     let sizeBoard
     let sizeCells
     let heightAndWidthCell 
+
+    const arrayEdgesUp = []
+    const arrayEdgesRight = []
+    const arrayEdgesBottom = []
+    const arrayEdgesLeft = []
 
 
     const eventBoardSetted = new Event('boardSetted')
@@ -36,13 +53,14 @@ document.onload = (() => {
     }
 
     function setBoard() {
-        sizeBoard = slider.value
+        sizeBoard = Number(slider.value)
         sizeCells = sizeBoard * sizeBoard
 
         heightAndWidthCell = Math.round((window.innerHeight - 50) / sizeBoard) < Math.round((window.innerWidth - 50) / sizeBoard) ?
         Math.round((window.innerHeight - 50) / sizeBoard) : Math.round((window.innerWidth - 50) / sizeBoard)
 
-        console.log(`the width and height of the cells is ${heightAndWidthCell}px`)
+        console.log(`board 👉 ${sizeBoard} x ${sizeBoard}`)
+        console.log(`cells 👉 ${heightAndWidthCell}px x ${heightAndWidthCell}px`)
     }
 
     function printBoard() {
@@ -60,16 +78,47 @@ document.onload = (() => {
             let cell = document.createElement('span');
             cell.classList.add(`cell-${i + 1}`);
             cell.classList.add('cell-board');
+            cell.textContent = i + 1
 
             board.appendChild(cell)
         }
 
         flexContainerBoard.style.display = 'flex'
         console.log('printed!👨🏻‍🎨')
+
+        console.log('setting type of cells...⚙️⏳')
+        setTypeOfCells()
+        console.log('done! ⚙️')
+        console.log(`
+        arrayEdgesUp ${arrayEdgesUp} \n
+        arrayEdgesLeft ${arrayEdgesLeft} \n
+        arrayEdgesBottom ${arrayEdgesBottom} \n
+        arrayEdgesRight ${arrayEdgesRight} \n`)
     }
 
-    function getNeighborsCells() {
+    function setTypeOfCells() {
+        let edge = sizeBoard
 
+        for (let i = 0; i < sizeBoard; i++) {
+            if (i > 1 && i < sizeBoard) {
+                arrayEdgesUp.push(i)
+            }
+
+            if (edge > sizeBoard && edge < sizeCells) {
+                arrayEdgesRight.push(edge)
+            }
+
+            if (edge + 1 < sizeCells - sizeBoard) {
+                arrayEdgesLeft.push(edge + 1)
+            }
+            
+            if (sizeCells - (i + 1) > sizeCells - (sizeBoard - 1)) {
+                arrayEdgesBottom.push(sizeCells - (i + 1))
+            }
+
+            edge += sizeBoard
+        }
     }
+
 
 })()

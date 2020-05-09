@@ -2,7 +2,7 @@ document.onload = (() => {
 
     class Cell {
 
-        constructor(num, type) {
+        constructor(num, type = 'middle') {
             this.num = num
             this.type = type
         }
@@ -27,6 +27,10 @@ document.onload = (() => {
     const arrayEdgesRight = []
     const arrayEdgesBottom = []
     const arrayEdgesLeft = []
+    let cornerLeftUp = 1
+    let cornerRightUp
+    let cornerLeftBottom
+    let cornerRightBottom 
 
 
     const eventBoardSetted = new Event('boardSetted')
@@ -55,6 +59,9 @@ document.onload = (() => {
     function setBoard() {
         sizeBoard = Number(slider.value)
         sizeCells = sizeBoard * sizeBoard
+        cornerRightUp = sizeBoard
+        cornerRightBottom = sizeCells
+        cornerLeftBottom = sizeCells - (sizeBoard - 1)
 
         heightAndWidthCell = Math.round((window.innerHeight - 50) / sizeBoard) < Math.round((window.innerWidth - 50) / sizeBoard) ?
         Math.round((window.innerHeight - 50) / sizeBoard) : Math.round((window.innerWidth - 50) / sizeBoard)
@@ -86,17 +93,21 @@ document.onload = (() => {
         flexContainerBoard.style.display = 'flex'
         console.log('printed!👨🏻‍🎨')
 
-        console.log('setting type of cells...⚙️⏳')
-        setTypeOfCells()
+        console.log('getting type of cells...⚙️⏳')
+        getEdgesCells()
         console.log('done! ⚙️')
         console.log(`
+        cornerLeftUp ${cornerLeftUp} \n
+        cornerRightUp ${cornerRightUp} \n
+        cornerLeftBottom ${cornerLeftBottom} \n
+        cornerRightBottom ${cornerRightBottom} \n
         arrayEdgesUp ${arrayEdgesUp} \n
         arrayEdgesLeft ${arrayEdgesLeft} \n
         arrayEdgesBottom ${arrayEdgesBottom} \n
         arrayEdgesRight ${arrayEdgesRight} \n`)
     }
 
-    function setTypeOfCells() {
+    function getEdgesCells() {
         let edge = sizeBoard
 
         for (let i = 0; i < sizeBoard; i++) {

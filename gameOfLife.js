@@ -41,6 +41,7 @@ document.onload = (() => {
 
 
     const eventBoardSetted = new Event('boardSetted')
+    const eventBoardPrinted = new Event('boardPrinted')
 
     btnSetBoard.onclick = setBoardClick
 
@@ -51,6 +52,8 @@ document.onload = (() => {
     flexSetBoard.addEventListener('transitionend', boardSetted)
 
     document.addEventListener('boardSetted', printBoard)
+
+    document.addEventListener('boardPrinted', getCells)
 
 
     function setBoardClick() {        
@@ -95,13 +98,19 @@ document.onload = (() => {
         }
 
         flexContainerBoard.style.display = 'flex'
-        console.log('printed!👨🏻‍🎨')
+        console.log('done!👨🏻‍🎨')
+        document.dispatchEvent(eventBoardPrinted)
+    }
 
-        console.log('getting type of cells...⚙️⏳')
+    function getCells() {
+        console.log('getting type of cells...🦠⏳')
         getCornerCells()
         getEdgeCells()
         getMiddleCells()
-        console.log('done! ⚙️')
+        console.log('done! 🦠')
+        console.log('getting neighbors of cells...🏘⏳')
+        cells.map(cell => getNeighbors(cell))
+        console.log('done! 🏘')
         console.log(`cells ${cells.length}`)
         cells.forEach(cell => {
             console.log(cell)
@@ -139,18 +148,15 @@ document.onload = (() => {
     function getCornerCells() {
         let cell = new Cell(1, 'clu')
         cells.push(cell)
-        cellsCreated.push(1)
 
         cell = new Cell(sizeBoard, 'cru')
         cells.push(cell)
-        cellsCreated.push(sizeBoard)
 
         cell = new Cell(sizeCells, 'crb')
         cells.push(cell)
 
         cell = new Cell(sizeCells - (sizeBoard - 1), 'clb')
         cells.push(cell)
-        cellsCreated.push(sizeCells - (sizeBoard - 1))
     }
 
     function getMiddleCells() {
@@ -159,6 +165,69 @@ document.onload = (() => {
                 let cell = new Cell(i)
                 cells.push(cell)
             }
+        }
+    }
+
+    function getNeighbors(cell) {
+        switch (cell.type) {
+            case 'eu':
+                cell.neighbors.push(cell.num - 1)
+                cell.neighbors.push(cell.num + 1)
+                cell.neighbors.push(cell.num + (sizeBoard - 1))
+                cell.neighbors.push(cell.num + sizeBoard)
+                cell.neighbors.push(cell.num + (sizeBoard + 1))
+                break
+            case 'er':
+                cell.neighbors.push(cell.num - (sizeBoard + 1))
+                cell.neighbors.push(cell.num - sizeBoard)
+                cell.neighbors.push(cell.num - 1)
+                cell.neighbors.push(cell.num + (sizeBoard - 1))
+                cell.neighbors.push(cell.num + sizeBoard)
+                break
+            case 'el':
+                cell.neighbors.push(cell.num - sizeBoard)
+                cell.neighbors.push(cell.num - (sizeBoard - 1))
+                cell.neighbors.push(cell.num + 1)
+                cell.neighbors.push(cell.num + sizeBoard)
+                cell.neighbors.push(cell.num + (sizeBoard + 1))
+                break
+            case 'eb':
+                cell.neighbors.push(cell.num - 1)
+                cell.neighbors.push(cell.num - (sizeBoard + 1))
+                cell.neighbors.push(cell.num - sizeBoard)
+                cell.neighbors.push(cell.num - (sizeBoard - 1))
+                cell.neighbors.push(cell.num + 1)
+                break
+            case 'clu':
+                cell.neighbors.push(cell.num + 1)
+                cell.neighbors.push(sizeBoard + 1)
+                cell.neighbors.push(sizeBoard + 2)
+                break
+            case 'cru':
+                cell.neighbors.push(cell.num - 1)
+                cell.neighbors.push(sizeBoard + sizeBoard - 1)
+                cell.neighbors.push(sizeBoard + sizeBoard)
+                break
+            case 'crb':
+                cell.neighbors.push(cell.num - sizeBoard)
+                cell.neighbors.push(cell.num - (sizeBoard + 1))
+                cell.neighbors.push(cell.num - 1)
+                break
+            case 'clb':
+                cell.neighbors.push(cell.num - sizeBoard)
+                cell.neighbors.push(cell.num - (sizeBoard - 1))
+                cell.neighbors.push(cell.num + 1)
+                break
+            case 'm':
+                cell.neighbors.push(cell.num - (sizeBoard + 1))
+                cell.neighbors.push(cell.num - sizeBoard)
+                cell.neighbors.push(cell.num - (sizeBoard - 1))
+                cell.neighbors.push(cell.num - 1)
+                cell.neighbors.push(cell.num + 1)
+                cell.neighbors.push(cell.num + (sizeBoard - 1))
+                cell.neighbors.push(cell.num + sizeBoard)
+                cell.neighbors.push(cell.num + (sizeBoard + 1))
+                break
         }
     }
 

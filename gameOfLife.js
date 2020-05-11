@@ -111,7 +111,7 @@ document.onload = (() => {
         console.log('getting neighbors of cells...🏘⏳')
         cells.map(cell => getNeighbors(cell))
         console.log('done! 🏘')
-        console.log(`cells ${cells.length}`)
+        console.log(`cells 👉 ${cells.length}`)
         cells.forEach(cell => {
             console.log(cell)
         })
@@ -122,23 +122,19 @@ document.onload = (() => {
 
         for (let i = 0; i < sizeBoard; i++) {
             if (i > 1 && i < sizeBoard) {
-                let cell = new Cell(i, 'eu')
-                cells.push(cell)
+                cells.push(new Cell(i, 'eu'))
             }
 
             if (edge > sizeBoard && edge < sizeCells) {
-                let cell = new Cell(edge, 'er')
-                cells.push(cell)
+                cells.push(new Cell(edge, 'er'))
             }
 
             if (edge + 1 < sizeCells - sizeBoard) {
-                let cell = new Cell(edge + 1, 'el')
-                cells.push(cell)
+                cells.push(new Cell(edge + 1, 'el'))
             }
             
             if (sizeCells - (i + 1) > sizeCells - (sizeBoard - 1)) {
-                let cell = new Cell(sizeCells - (i + 1), 'eb')
-                cells.push(cell)
+                cells.push(new Cell(sizeCells - (i + 1), 'eb'))
             }
 
             edge += sizeBoard
@@ -146,24 +142,16 @@ document.onload = (() => {
     }
 
     function getCornerCells() {
-        let cell = new Cell(1, 'clu')
-        cells.push(cell)
-
-        cell = new Cell(sizeBoard, 'cru')
-        cells.push(cell)
-
-        cell = new Cell(sizeCells, 'crb')
-        cells.push(cell)
-
-        cell = new Cell(sizeCells - (sizeBoard - 1), 'clb')
-        cells.push(cell)
+        cells.push(new Cell(1, 'clu'))
+        cells.push(new Cell(sizeBoard, 'cru'))
+        cells.push(new Cell(sizeCells, 'crb'))
+        cells.push(new Cell(sizeCells - (sizeBoard - 1), 'clb'))
     }
 
     function getMiddleCells() {
         for (let i = sizeBoard; i < sizeCells - sizeBoard; i++) {
             if (!cellsCreated.includes(i)) {
-                let cell = new Cell(i)
-                cells.push(cell)
+                cells.push(new Cell(i))
             }
         }
     }

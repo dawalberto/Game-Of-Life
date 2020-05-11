@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap');
 
+:root {
+    --black: #2f3542;
+    --green: #7bed9f;
+    --light-gray: #dfe4ea;
+}
+
 * {
     box-sizing: border-box;
     font-family: 'Open Sans Condensed', sans-serif;
@@ -64,12 +70,21 @@ body {
 }
 
 .flex-container-board {
-    flex-direction: column;
+    flex-direction: column-reverse;    
     align-items: center;
     height: 100vh;
     width: 100%;
-    background-color: #7bed9f;
+    background-color: var(--light-gray);
     display: none;
+}
+
+.flex-container-settings {
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    width: 100%;
+    background-color: var(--light-gray);
+    padding-top: 50px;
 }
 
 .fade-out {
@@ -79,11 +94,14 @@ body {
 
 .grid-container-board {
     display: grid;
-    gap: 2px;
+    background-color: var(--green);
+    border: 1px solid var(--black);
+    border-width: 0 1px 1px 0;
 }
 
 .cell-board {
-    border: 2px solid #2f3542;
+    border: 1px solid var(--black);
+    border-width: 1px 0 0 1px;
 }
 
 .cell-board:hover {
@@ -94,4 +112,35 @@ body {
 .cell-board:active {
     transform: translateY(-1px);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.50);
+}
+
+.iterations-count {
+    position: absolute;
+    top: 0;
+    left: 10px;
+}
+
+.settings {
+    margin: 20px 0;
+}
+
+.button-play {
+    margin: 20px 0;
+}
+
+.settings p {
+    margin: 0;
+}
+
+
+@media screen and (min-width: 600px) {
+    .flex-container-board {
+        flex-direction: row;    
+        display: none;
+    }
+    
+    .flex-container-settings {
+        padding-top: inherit;
+        flex-basis: 300px;
+    }
 }

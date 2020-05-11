@@ -10,14 +10,35 @@
     <div class="flex-container flex-container-set-board">
         <div class="flex-container flex-container-slider">
             <span class="slider-value slider-value-min">4</span>
-            <input type="range" min="4" max="40" value="22" class="slider">
-            <span class="slider-value slider-value-max">40</span>
+            <input type="range" min="4" max="50" value="27" class="slider">
+            <span class="slider-value slider-value-max">50</span>
         </div>
-        <span class="slider-value slider-value-selected">Board <br/>22 x 22</span>
+        <span class="slider-value slider-value-selected">Board <br/>27 x 27</span>
         <button id="button-set-board" class="button button-set">set</button>
     </div>
 
     <div class="flex-container flex-container-board">
+        <div class="iterations-count">Iterations: 0</div>
+        <div class="flex-container flex-container-settings">
+            <h2>Settings</h2>
+            <div class="settings pick-color">
+                <p>
+                    Pick color of alive cell 👉🏻
+                    <input type="color" class="input-color input-color-cell-alive" name="cell-color-alive" value="#3742fa">
+                </p>
+            </div>
+            <div class="settings pick-color">
+                <p>
+                    Pick color of dead cell 👉🏻
+                    <input type="color" class="input-color input-color-cell-dead" name="cell-color-dead" value="#ff4757">
+                </p>
+            </div>
+            <div class="settings iteration-time">
+                <p>Iteration time 👉🏻 500ms</p>
+                1ms <input type="range" min="1" max="2000" value="500" class=""> 2000ms
+            </div>
+            <button class="button button-play">Play 👾</button>
+        </div>
         <div class="grid-container-board"></div>
     </div>
 

@@ -49,6 +49,8 @@ document.onload = (() => {
         sliderValueSelected.innerHTML = `Board  <br> ${slider.value} x ${slider.value}`
     })
 
+    window.addEventListener('resize', resizeAlert)
+
     flexSetBoard.addEventListener('transitionend', boardSetted)
 
     document.addEventListener('boardSetted', printBoard)
@@ -92,7 +94,7 @@ document.onload = (() => {
             let cell = document.createElement('span');
             cell.classList.add(`cell-${i + 1}`);
             cell.classList.add('cell-board');
-            cell.textContent = i + 1
+            // cell.textContent = i + 1
 
             board.appendChild(cell)
         }
@@ -104,12 +106,16 @@ document.onload = (() => {
 
     function getCells() {
         console.log('getting type of cells...🦠⏳')
+
         getCornerCells()
         getEdgeCells()
         getMiddleCells()
+
         console.log('done! 🦠')
         console.log('getting neighbors of cells...🏘⏳')
+
         cells.map(cell => getNeighbors(cell))
+
         console.log('done! 🏘')
         console.log(`cells 👉 ${cells.length}`)
         cells.forEach(cell => {
@@ -217,6 +223,11 @@ document.onload = (() => {
                 cell.neighbors.push(cell.num + (sizeBoard + 1))
                 break
         }
+    }
+
+    function resizeAlert() {
+        // cambiar por un popup
+        console.log('Cuidado! el tamaño del tablero se ha calculado en base al tamaño de tu navegador, si cambias de tamaño la ventana asegurate de recargar la página para una correcta visualización ;)')
     }
 
 })()

@@ -3,7 +3,10 @@
 :root {
     --black: #2f3542;
     --green: #7bed9f;
-    --light-gray: #dfe4ea;
+    --white: #f5f6fa;
+    --background: #dfe4ea;
+    --alive: #c23616;
+    --dead: #2f3640;
 }
 
 * {
@@ -30,21 +33,21 @@ body {
     width: 100%;
 }
 
-.flex-container-slider {
+.flex-container-slider-board {
     width: 100%;
 }
 
-.slider {
+.slider-board {
     width: 90%;
 }
 
-.slider-value {
+.slider-board-value {
     width: 5%;
     text-align: center;
     margin: 1rem auto;
 }
 
-.slider-value-selected {
+.slider-board-value-selected {
     width: 100%;
 }
 
@@ -53,6 +56,7 @@ body {
     font-size: 18px;
     padding: 7px 20px;
     outline: none;
+    cursor: pointer;
 }
 
 .button:hover {
@@ -69,12 +73,12 @@ body {
     margin: 1rem auto;
 }
 
-.flex-container-board {
+.flex-container-board-and-settings {
     flex-direction: column-reverse;    
     align-items: center;
     height: 100vh;
     width: 100%;
-    background-color: var(--light-gray);
+    background-color: var(--background);
     display: none;
 }
 
@@ -83,8 +87,8 @@ body {
     align-items: center;
     justify-content: start;
     width: 100%;
-    background-color: var(--light-gray);
-    /* padding-top: 50px; */
+    background-color: var(--background);
+    padding-top: 50px;
 }
 
 .fade-out {
@@ -94,14 +98,14 @@ body {
 
 .grid-container-board {
     display: grid;
-    background-color: var(--green);
-    border: 1px solid var(--black);
+    /* background-color: var(--green, green); */
+    /* border: 1px solid var(--black, black); */
     border-width: 0 1px 1px 0;
-    margin-top: 50px;
+    margin-top: 250px;
 }
 
 .cell-board {
-    border: 1px solid var(--black);
+    border: 1px solid var(--background, black);
     border-width: 1px 0 0 1px;
 }
 
@@ -123,6 +127,7 @@ body {
 
 .settings {
     margin: 20px 0;
+    user-select: none;
 }
 
 .button-play {
@@ -133,9 +138,41 @@ body {
     margin: 0;
 }
 
+input[type="color"] {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
 
-@media screen and (min-width: 600px) {
-    .flex-container-board {
+input[type="color"]:focus {
+    outline: none;
+}
+
+.control-play {
+    margin: 0 10px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.control-play:hover {
+    transform: translateY(-3px);
+}
+
+.control-play:active {
+    transform: translateY(-1px);
+}
+
+.cell-dead {
+    background-color: var(--dead);
+}
+
+.cell-alive {
+    background-color: var(--alive);
+}
+
+
+@media screen and (min-width: 680px) {
+    .flex-container-board-and-settings {
         flex-direction: row;    
         display: none;
     }

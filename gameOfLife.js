@@ -21,23 +21,44 @@ document.onload = (() => {
         }
 
         alive = false
+        life = []
         neighbors = []
 
     }
 
-    const slider = document.querySelector('.slider')
-    const sliderValueSelected = document.querySelector('.slider-value-selected')
+    const Game = {
+        mode: '', // configure, play, pause, end
+        sizeBoard: 0,
+        totalCells: 0,
+        heightAndWidthCell: 0,
+        iterations: 0,
+        iterationTime: 0,
+        colorAliveCell: '',
+        colorDeadCell: '',
+        cells: []
+    }
+
+
+    const sliderBoard = document.querySelector('.slider-board')
+    const sliderValueSelected = document.querySelector('.slider-board-value-selected')
     const flexSetBoard = document.querySelector('.flex-container-set-board')
     const btnSetBoard = document.querySelector('#button-set-board')
-    const flexContainerBoard = document.querySelector('.flex-container-board')
+    const flexContainerBoard = document.querySelector('.flex-container-board-and-settings')
     const board = document.querySelector('.grid-container-board')
+    const informationBoardSize = document.querySelector('.information-board-size')
+    const cellsBoard = document.getElementsByClassName('cell-board')
+    const inputColorCellAlive = document.querySelector('.input-color-cell-alive')
+    const inputColorCellDead = document.querySelector('.input-color-cell-dead')
+    const slideIterationTime = document.querySelector('#slide-iteration-time')
+    const slideIterationTimeSelected = document.querySelector('.slide-iteration-time-selected')
 
-    let sizeBoard
-    let sizeCells
-    let heightAndWidthCell 
-
-    const cells = []
     const cellsCreated = []
+
+    // Initial default values
+    Game.mode = 'configure'
+    Game.iterationTime = slideIterationTime.value
+    Game.colorAliveCell = inputColorCellAlive.value
+    Game.colorDeadCell = inputColorCellDead.value
 
 
     const eventBoardSetted = new Event('boardSetted')
@@ -45,8 +66,8 @@ document.onload = (() => {
 
     btnSetBoard.onclick = setBoardClick
 
-    slider.addEventListener('input', () => {
-        sliderValueSelected.innerHTML = `Board  <br> ${slider.value} x ${slider.value}`
+    sliderBoard.addEventListener('input', () => {
+        sliderValueSelected.innerHTML = `Board  <br> ${sliderBoard.value} x ${sliderBoard.value}`
     })
 
     window.addEventListener('resize', resizeAlert)
@@ -56,6 +77,18 @@ document.onload = (() => {
     document.addEventListener('boardSetted', printBoard)
 
     document.addEventListener('boardPrinted', getCells)
+
+    inputColorCellAlive.addEventListener('change', () => { Game.mode === 'configure' ? Game.colorAliveCell = inputColorCellAlive.value : null })
+
+    inputColorCellDead.addEventListener('change', () => { Game.mode === 'configure' ? Game.colorDeadCell = inputColorCellDead.value : null })
+
+    slideIterationTime.addEventListener('input', () => {
+        if (Game.mode === 'configure') {
+            Game.iterationTime = slideIterationTime.value
+            slideIterationTimeSelected.innerHTML = `⏱ Iteration time: ${Game.iterationTime}ms`
+        }
+    })
+
 
 
     function setBoardClick() {        
@@ -69,37 +102,42 @@ document.onload = (() => {
     }
 
     function setBoard() {
-        sizeBoard = Number(slider.value)
-        sizeCells = sizeBoard * sizeBoard
+        Game.sizeBoard = Number(sliderBoard.value)
+        Game.totalCells = Game.sizeBoard * Game.sizeBoard
 
-        heightAndWidthCell = Math.round((window.innerHeight - 50) / sizeBoard) < Math.round((window.innerWidth - 50) / sizeBoard) ?
-        Math.round((window.innerHeight - 50) / sizeBoard) : Math.round((window.innerWidth - 50) / sizeBoard)
+        Game.heightAndWidthCell = Math.round((window.innerHeight - 50) / Game.sizeBoard) < Math.round((window.innerWidth - 50) / Game.sizeBoard) ?
+        Math.round((window.innerHeight - 50) / Game.sizeBoard) : Math.round((window.innerWidth - 50) / Game.sizeBoard)
 
-        console.log(`board 👉 ${sizeBoard} x ${sizeBoard}`)
-        console.log(`cells 👉 ${heightAndWidthCell}px x ${heightAndWidthCell}px`)
+        console.log(`board 👉 ${Game.sizeBoard} x ${Game.sizeBoard}`)
+        console.log(`cells 👉 ${Game.heightAndWidthCell}px x ${Game.heightAndWidthCell}px`)
     }
 
     function printBoard() {
         console.log('printing board...👨🏻‍🎨⏳')
+
+        informationBoardSize.innerHTML = `Board ${sliderBoard.value} x ${sliderBoard.value}`
+
         const style = document.createElement('style');
         style.innerHTML = `
             .grid-container-board {
-                grid-template-columns: repeat(${sizeBoard}, ${heightAndWidthCell}px);
-                grid-template-rows: repeat(${sizeBoard}, ${heightAndWidthCell}px);
+                grid-template-columns: repeat(${Game.sizeBoard}, ${Game.heightAndWidthCell}px);
+                grid-template-rows: repeat(${Game.sizeBoard}, ${Game.heightAndWidthCell}px);
             }
         `;
         document.head.appendChild(style);
 
-        for(let i = 0; i < sizeCells; i++) {
+        for(let i = 0; i < Game.totalCells; i++) {
             let cell = document.createElement('span');
-            cell.classList.add(`cell-${i + 1}`);
-            cell.classList.add('cell-board');
+            cell.classList.add(`cell-${i + 1}`, 'cell-board', 'cell-dead');
             // cell.textContent = i + 1
 
             board.appendChild(cell)
         }
 
         flexContainerBoard.style.display = 'flex'
+
+        changeLifeCellOnClick()
+
         console.log('done!👨🏻‍🎨')
         document.dispatchEvent(eventBoardPrinted)
     }
@@ -114,50 +152,47 @@ document.onload = (() => {
         console.log('done! 🦠')
         console.log('getting neighbors of cells...🏘⏳')
 
-        cells.map(cell => getNeighbors(cell))
+        Game.cells.map(cell => getNeighbors(cell))
 
         console.log('done! 🏘')
-        console.log(`cells 👉 ${cells.length}`)
-        cells.forEach(cell => {
-            console.log(cell)
-        })
+        console.log(`cells 👉 ${Game.cells.length}`)
     }
 
     function getEdgeCells() {
-        let edge = sizeBoard
+        let edge = Game.sizeBoard
 
-        for (let i = 0; i < sizeBoard; i++) {
-            if (i > 1 && i < sizeBoard) {
-                cells.push(new Cell(i, 'eu'))
+        for (let i = 0; i < Game.sizeBoard; i++) {
+            if (i > 1 && i < Game.sizeBoard) {
+                Game.cells.push(new Cell(i, 'eu'))
             }
 
-            if (edge > sizeBoard && edge < sizeCells) {
-                cells.push(new Cell(edge, 'er'))
+            if (edge > Game.sizeBoard && edge < Game.totalCells) {
+                Game.cells.push(new Cell(edge, 'er'))
             }
 
-            if (edge + 1 < sizeCells - sizeBoard) {
-                cells.push(new Cell(edge + 1, 'el'))
+            if (edge + 1 < Game.totalCells - Game.sizeBoard) {
+                Game.cells.push(new Cell(edge + 1, 'el'))
             }
             
-            if (sizeCells - (i + 1) > sizeCells - (sizeBoard - 1)) {
-                cells.push(new Cell(sizeCells - (i + 1), 'eb'))
+            if (Game.totalCells - (i + 1) > Game.totalCells - (Game.sizeBoard - 1)) {
+                Game.cells.push(new Cell(Game.totalCells - (i + 1), 'eb'))
             }
 
-            edge += sizeBoard
+            edge += Game.sizeBoard
         }
     }
 
     function getCornerCells() {
-        cells.push(new Cell(1, 'clu'))
-        cells.push(new Cell(sizeBoard, 'cru'))
-        cells.push(new Cell(sizeCells, 'crb'))
-        cells.push(new Cell(sizeCells - (sizeBoard - 1), 'clb'))
+        Game.cells.push(new Cell(1, 'clu'))
+        Game.cells.push(new Cell(Game.sizeBoard, 'cru'))
+        Game.cells.push(new Cell(Game.totalCells, 'crb'))
+        Game.cells.push(new Cell(Game.totalCells - (Game.sizeBoard - 1), 'clb'))
     }
 
     function getMiddleCells() {
-        for (let i = sizeBoard; i < sizeCells - sizeBoard; i++) {
+        for (let i = Game.sizeBoard; i < Game.totalCells - Game.sizeBoard; i++) {
             if (!cellsCreated.includes(i)) {
-                cells.push(new Cell(i))
+                Game.cells.push(new Cell(i))
             }
         }
     }
@@ -167,60 +202,60 @@ document.onload = (() => {
             case 'eu':
                 cell.neighbors.push(cell.num - 1)
                 cell.neighbors.push(cell.num + 1)
-                cell.neighbors.push(cell.num + (sizeBoard - 1))
-                cell.neighbors.push(cell.num + sizeBoard)
-                cell.neighbors.push(cell.num + (sizeBoard + 1))
+                cell.neighbors.push(cell.num + (Game.sizeBoard - 1))
+                cell.neighbors.push(cell.num + Game.sizeBoard)
+                cell.neighbors.push(cell.num + (Game.sizeBoard + 1))
                 break
             case 'er':
-                cell.neighbors.push(cell.num - (sizeBoard + 1))
-                cell.neighbors.push(cell.num - sizeBoard)
+                cell.neighbors.push(cell.num - (Game.sizeBoard + 1))
+                cell.neighbors.push(cell.num - Game.sizeBoard)
                 cell.neighbors.push(cell.num - 1)
-                cell.neighbors.push(cell.num + (sizeBoard - 1))
-                cell.neighbors.push(cell.num + sizeBoard)
+                cell.neighbors.push(cell.num + (Game.sizeBoard - 1))
+                cell.neighbors.push(cell.num + Game.sizeBoard)
                 break
             case 'el':
-                cell.neighbors.push(cell.num - sizeBoard)
-                cell.neighbors.push(cell.num - (sizeBoard - 1))
+                cell.neighbors.push(cell.num - Game.sizeBoard)
+                cell.neighbors.push(cell.num - (Game.sizeBoard - 1))
                 cell.neighbors.push(cell.num + 1)
-                cell.neighbors.push(cell.num + sizeBoard)
-                cell.neighbors.push(cell.num + (sizeBoard + 1))
+                cell.neighbors.push(cell.num + Game.sizeBoard)
+                cell.neighbors.push(cell.num + (Game.sizeBoard + 1))
                 break
             case 'eb':
                 cell.neighbors.push(cell.num - 1)
-                cell.neighbors.push(cell.num - (sizeBoard + 1))
-                cell.neighbors.push(cell.num - sizeBoard)
-                cell.neighbors.push(cell.num - (sizeBoard - 1))
+                cell.neighbors.push(cell.num - (Game.sizeBoard + 1))
+                cell.neighbors.push(cell.num - Game.sizeBoard)
+                cell.neighbors.push(cell.num - (Game.sizeBoard - 1))
                 cell.neighbors.push(cell.num + 1)
                 break
             case 'clu':
                 cell.neighbors.push(cell.num + 1)
-                cell.neighbors.push(sizeBoard + 1)
-                cell.neighbors.push(sizeBoard + 2)
+                cell.neighbors.push(Game.sizeBoard + 1)
+                cell.neighbors.push(Game.sizeBoard + 2)
                 break
             case 'cru':
                 cell.neighbors.push(cell.num - 1)
-                cell.neighbors.push(sizeBoard + sizeBoard - 1)
-                cell.neighbors.push(sizeBoard + sizeBoard)
+                cell.neighbors.push(Game.sizeBoard + Game.sizeBoard - 1)
+                cell.neighbors.push(Game.sizeBoard + Game.sizeBoard)
                 break
             case 'crb':
-                cell.neighbors.push(cell.num - sizeBoard)
-                cell.neighbors.push(cell.num - (sizeBoard + 1))
+                cell.neighbors.push(cell.num - Game.sizeBoard)
+                cell.neighbors.push(cell.num - (Game.sizeBoard + 1))
                 cell.neighbors.push(cell.num - 1)
                 break
             case 'clb':
-                cell.neighbors.push(cell.num - sizeBoard)
-                cell.neighbors.push(cell.num - (sizeBoard - 1))
+                cell.neighbors.push(cell.num - Game.sizeBoard)
+                cell.neighbors.push(cell.num - (Game.sizeBoard - 1))
                 cell.neighbors.push(cell.num + 1)
                 break
             case 'm':
-                cell.neighbors.push(cell.num - (sizeBoard + 1))
-                cell.neighbors.push(cell.num - sizeBoard)
-                cell.neighbors.push(cell.num - (sizeBoard - 1))
+                cell.neighbors.push(cell.num - (Game.sizeBoard + 1))
+                cell.neighbors.push(cell.num - Game.sizeBoard)
+                cell.neighbors.push(cell.num - (Game.sizeBoard - 1))
                 cell.neighbors.push(cell.num - 1)
                 cell.neighbors.push(cell.num + 1)
-                cell.neighbors.push(cell.num + (sizeBoard - 1))
-                cell.neighbors.push(cell.num + sizeBoard)
-                cell.neighbors.push(cell.num + (sizeBoard + 1))
+                cell.neighbors.push(cell.num + (Game.sizeBoard - 1))
+                cell.neighbors.push(cell.num + Game.sizeBoard)
+                cell.neighbors.push(cell.num + (Game.sizeBoard + 1))
                 break
         }
     }
@@ -228,6 +263,43 @@ document.onload = (() => {
     function resizeAlert() {
         // cambiar por un popup
         console.log('Cuidado! el tamaño del tablero se ha calculado en base al tamaño de tu navegador, si cambias de tamaño la ventana asegurate de recargar la página para una correcta visualización ;)')
+        console.log(Game)
+    }
+
+    function changeLifeCellOnClick() {
+        for (let i = 0; i < cellsBoard.length; i++) {
+            cellsBoard[i].addEventListener('click', () => {
+                if (Game.mode === 'configure') {
+                    if (cellsBoard[i].classList.contains('cell-dead')) {
+                        cellsBoard[i].classList.replace('cell-dead', 'cell-alive')
+                        toggleAliveDeadCell(getNumCellOfClass(cellsBoard[i]))
+                    } else {
+                        cellsBoard[i].classList.replace('cell-alive', 'cell-dead')
+                        toggleAliveDeadCell(getNumCellOfClass(cellsBoard[i]))
+                    }
+                }
+            })
+        }
+    }
+
+    function getNumCellOfClass(htmlCell) {
+        let classNum = htmlCell.classList[0]
+        return Number(classNum.substring(classNum.indexOf('l-') + 2, classNum.length))
+    }
+
+    function toggleAliveDeadCell(num) {
+        Game.cells.map(cell => {
+            if (cell.num === num) {
+                cell.alive = !cell.alive
+                return
+            }
+        })
+    }
+
+    function canCellAlive(cell) {
+        for (let i = 0; i < cell.neighbors.length; i++) {
+            
+        }
     }
 
 })()

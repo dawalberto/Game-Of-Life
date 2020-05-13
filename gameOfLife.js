@@ -171,6 +171,7 @@ document.onload = (() => {
         let edge = Game.sizeBoard
 
         for (let i = 0; i < Game.sizeBoard; i++) {
+
             if (i > 1 && i < Game.sizeBoard) {
                 Game.cells.push(new Cell(i, 'eu'))
             }
@@ -188,6 +189,7 @@ document.onload = (() => {
             }
 
             edge += Game.sizeBoard
+
         }
     }
 
@@ -200,9 +202,11 @@ document.onload = (() => {
 
     function getMiddleCells() {
         for (let i = Game.sizeBoard; i < Game.totalCells - Game.sizeBoard; i++) {
+
             if (!cellsCreated.includes(i)) {
                 Game.cells.push(new Cell(i))
             }
+
         }
     }
 
@@ -277,6 +281,7 @@ document.onload = (() => {
 
     function changeLifeCellOnClick() {
         for (let i = 0; i < cellsBoard.length; i++) {
+
             cellsBoard[i].addEventListener('click', () => {
                 if (Game.mode === 'pause') {
                     if (!isCellAlive(cellsBoard[i])) {
@@ -287,6 +292,7 @@ document.onload = (() => {
                     toggleAliveDeadCell(getNumCellByHtmlClass(cellsBoard[i]))
                 }
             })
+
         }
     }
 
@@ -306,7 +312,6 @@ document.onload = (() => {
 
     function isCellAlive(htmlCell) {
         let cell = getCellByNum(getNumCellByHtmlClass(htmlCell))
-        console.log(cell.life[Game.iterationsNum])
         return cell.life[Game.iterationsNum]
     }
 
@@ -314,19 +319,19 @@ document.onload = (() => {
         return Game.cells.filter(cell => cell.num === num)[0]
     }
 
-    function canCellAlive(htmlCell) {
-        let cell = getCellByNum(getNumCellByHtmlClass(htmlCell))
-        let neighbors = []
+    function canCellAliveNextIteration(cell) {
+        let aliveNeighbors = cell.neighbors.filter(neighbor => getCellByNum(neighbor).life[Game.iterationsNum]).length
 
-        for (let i = 0; i < cell.neighbors.length; i++) {
-            neighbors.push(getCellByNum(cell.neighbors[i]))
-        }
-
-        if (neighbors.filter(cell => cell.life[Game.iterationsNum]).length === 2 || neighbors.filter(cell => cell.life[Game.iterationsNum]).length === 3) {
-            return true
+        if (aliveNeighbors === 2 || aliveNeighbors === 3) {
+            if (cell.life[Game.iterationsNum]) {
+                return true
+            } else if (aliveNeighbors === 3) {
+                return true
+            }            
         }
 
         return false
+
     }
 
     function playPauseGame() {
@@ -352,13 +357,31 @@ document.onload = (() => {
     }
 
     function nextIteration() {
-        // for (let i = 0; i < cellsBoard.length; i++) {
-            
-        // }
+        Game.cells.map(cell => {
+            if (canCellAliveNextIteration(cell)) {
+                cell.life.push(true)
+            } else {
+                cell.life.push(false)
+            }
+        })
+
+        printIteration()
         console.log('nextIteration')
 
         Game.iterationsNum += 1
         iterationsCount.innerHTML = `Iterations: ${Game.iterationsNum}`
+    }
+
+    function printIteration() {
+        for (let i = 0; i < cellsBoard.length; i++) {
+
+            if (isCellAlive(cellsBoard[i])) {
+                cellsBoard[i].style.backgroundColor = Game.colorAliveCell
+            } else {
+                cellsBoard[i].style.backgroundColor = Game.colorDeadCell
+            }
+
+        }
     }
 
 })()

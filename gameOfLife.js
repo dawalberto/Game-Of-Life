@@ -20,25 +20,26 @@ document.onload = (() => {
             cellsCreated.push(num)
         }
 
-        alive = false
-        life = []
+        life = [false]
         neighbors = []
 
     }
 
     const Game = {
-        mode: '', // configure, play, pause, end
+        mode: '', // play, pause, end
         sizeBoard: 0,
         totalCells: 0,
         heightAndWidthCell: 0,
-        iterations: 0,
+        iterationsNum: 0,
         iterationTime: 0,
+        iterations: '',
         colorAliveCell: '',
         colorDeadCell: '',
         cells: []
     }
 
 
+    // Elements
     const sliderBoard = document.querySelector('.slider-board')
     const sliderValueSelected = document.querySelector('.slider-board-value-selected')
     const flexSetBoard = document.querySelector('.flex-container-set-board')
@@ -51,20 +52,25 @@ document.onload = (() => {
     const inputColorCellDead = document.querySelector('.input-color-cell-dead')
     const slideIterationTime = document.querySelector('#slide-iteration-time')
     const slideIterationTimeSelected = document.querySelector('.slide-iteration-time-selected')
+    const btnPlayPauseGame = document.querySelector('#button-play-pause-game')
+    const iterationsCount = document.querySelector('.iterations-count')
 
     const cellsCreated = []
 
     // Initial default values
-    Game.mode = 'configure'
-    Game.iterationTime = slideIterationTime.value
+    Game.mode = 'pause'
+    Game.iterationTime = Number(slideIterationTime.value)
     Game.colorAliveCell = inputColorCellAlive.value
     Game.colorDeadCell = inputColorCellDead.value
 
 
+    // Events
     const eventBoardSetted = new Event('boardSetted')
     const eventBoardPrinted = new Event('boardPrinted')
+    const eventPlayGame = new Event('playGame')
+    const eventPauseGame = new Event('pauseGame')
 
-    btnSetBoard.onclick = setBoardClick
+    btnSetBoard.addEventListener('click', setBoard)
 
     sliderBoard.addEventListener('input', () => {
         sliderValueSelected.innerHTML = `Board  <br> ${sliderBoard.value} x ${sliderBoard.value}`
@@ -78,24 +84,25 @@ document.onload = (() => {
 
     document.addEventListener('boardPrinted', getCells)
 
-    inputColorCellAlive.addEventListener('change', () => { Game.mode === 'configure' ? Game.colorAliveCell = inputColorCellAlive.value : null })
+    inputColorCellAlive.addEventListener('change', () => { Game.mode === 'pause' ? Game.colorAliveCell = inputColorCellAlive.value : null })
 
-    inputColorCellDead.addEventListener('change', () => { Game.mode === 'configure' ? Game.colorDeadCell = inputColorCellDead.value : null })
+    inputColorCellDead.addEventListener('change', () => { Game.mode === 'pause' ? Game.colorDeadCell = inputColorCellDead.value : null })
 
     slideIterationTime.addEventListener('input', () => {
-        if (Game.mode === 'configure') {
-            Game.iterationTime = slideIterationTime.value
+        if (Game.mode === 'pause') {
+            Game.iterationTime = Number(slideIterationTime.value)
             slideIterationTimeSelected.innerHTML = `⏱ Iteration time: ${Game.iterationTime}ms`
         }
     })
 
+    btnPlayPauseGame.addEventListener('click', playPauseGame)
+
+    document.addEventListener('playGame', playGame)
+
+    document.addEventListener('pauseGame', pauseGame)
 
 
-    function setBoardClick() {        
-        setBoard()
-        flexSetBoard.classList.add('fade-out')
-    }
-
+    // Functions
     function boardSetted() {
         this.style.display = 'none'
         document.dispatchEvent(eventBoardSetted)
@@ -110,6 +117,8 @@ document.onload = (() => {
 
         console.log(`board 👉 ${Game.sizeBoard} x ${Game.sizeBoard}`)
         console.log(`cells 👉 ${Game.heightAndWidthCell}px x ${Game.heightAndWidthCell}px`)
+
+        flexSetBoard.classList.add('fade-out')
     }
 
     function printBoard() {
@@ -269,20 +278,19 @@ document.onload = (() => {
     function changeLifeCellOnClick() {
         for (let i = 0; i < cellsBoard.length; i++) {
             cellsBoard[i].addEventListener('click', () => {
-                if (Game.mode === 'configure') {
-                    if (cellsBoard[i].classList.contains('cell-dead')) {
-                        cellsBoard[i].classList.replace('cell-dead', 'cell-alive')
-                        toggleAliveDeadCell(getNumCellOfClass(cellsBoard[i]))
+                if (Game.mode === 'pause') {
+                    if (!isCellAlive(cellsBoard[i])) {
+                        cellsBoard[i].style.backgroundColor = Game.colorAliveCell
                     } else {
-                        cellsBoard[i].classList.replace('cell-alive', 'cell-dead')
-                        toggleAliveDeadCell(getNumCellOfClass(cellsBoard[i]))
+                        cellsBoard[i].style.backgroundColor = Game.colorDeadCell
                     }
+                    toggleAliveDeadCell(getNumCellByHtmlClass(cellsBoard[i]))
                 }
             })
         }
     }
 
-    function getNumCellOfClass(htmlCell) {
+    function getNumCellByHtmlClass(htmlCell) {
         let classNum = htmlCell.classList[0]
         return Number(classNum.substring(classNum.indexOf('l-') + 2, classNum.length))
     }
@@ -290,16 +298,67 @@ document.onload = (() => {
     function toggleAliveDeadCell(num) {
         Game.cells.map(cell => {
             if (cell.num === num) {
-                cell.alive = !cell.alive
+                cell.life[Game.iterationsNum] = !cell.life[Game.iterationsNum]
                 return
             }
         })
     }
 
-    function canCellAlive(cell) {
+    function isCellAlive(htmlCell) {
+        let cell = getCellByNum(getNumCellByHtmlClass(htmlCell))
+        console.log(cell.life[Game.iterationsNum])
+        return cell.life[Game.iterationsNum]
+    }
+
+    function getCellByNum(num) {
+        return Game.cells.filter(cell => cell.num === num)[0]
+    }
+
+    function canCellAlive(htmlCell) {
+        let cell = getCellByNum(getNumCellByHtmlClass(htmlCell))
+        let neighbors = []
+
         for (let i = 0; i < cell.neighbors.length; i++) {
-            
+            neighbors.push(getCellByNum(cell.neighbors[i]))
         }
+
+        if (neighbors.filter(cell => cell.life[Game.iterationsNum]).length === 2 || neighbors.filter(cell => cell.life[Game.iterationsNum]).length === 3) {
+            return true
+        }
+
+        return false
+    }
+
+    function playPauseGame() {
+        if (Game.mode === 'play') {
+            document.dispatchEvent(eventPauseGame)
+        } else {
+            document.dispatchEvent(eventPlayGame)
+        }
+    }
+
+    function playGame() {
+        Game.mode = 'play'
+        
+        Game.iterations = setInterval(nextIteration, Game.iterationTime) 
+        console.log('play')
+    }
+
+    function pauseGame() {
+        Game.mode = 'pause'
+        
+        clearInterval(Game.iterations)
+        console.log('pause')
+    }
+
+    function nextIteration() {
+        // for (let i = 0; i < cellsBoard.length; i++) {
+            
+        // }
+        console.log('nextIteration')
+
+        Game.iterationsNum += 1
+        iterationsCount.innerHTML = `Iterations: ${Game.iterationsNum}`
     }
 
 })()

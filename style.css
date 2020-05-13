@@ -5,7 +5,6 @@
     --green: #7bed9f;
     --white: #f5f6fa;
     --background: #dfe4ea;
-    --alive: #c23616;
     --dead: #2f3640;
 }
 
@@ -69,7 +68,7 @@ body {
     box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
 }
 
-.button-set {
+#button-set-board {
     margin: 1rem auto;
 }
 

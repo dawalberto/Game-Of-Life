@@ -84,9 +84,9 @@ document.onload = (() => {
 
     document.addEventListener('boardPrinted', getCells)
 
-    inputColorCellAlive.addEventListener('change', () => { Game.mode === 'pause' ? Game.colorAliveCell = inputColorCellAlive.value : null })
+    inputColorCellAlive.addEventListener('change', () => { Game.mode === 'pause' ? (Game.colorAliveCell = inputColorCellAlive.value, printIteration()) : null })
 
-    inputColorCellDead.addEventListener('change', () => { Game.mode === 'pause' ? Game.colorDeadCell = inputColorCellDead.value : null })
+    inputColorCellDead.addEventListener('change', () => { Game.mode === 'pause' ? (Game.colorDeadCell = inputColorCellDead.value, printIteration()) : null })
 
     slideIterationTime.addEventListener('input', () => {
         if (Game.mode === 'pause') {

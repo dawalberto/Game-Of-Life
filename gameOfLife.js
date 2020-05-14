@@ -54,6 +54,7 @@ document.onload = (() => {
     const slideIterationTimeSelected = document.querySelector('.slide-iteration-time-selected')
     const btnPlayPauseGame = document.querySelector('#button-play-pause-game')
     const iterationsCount = document.querySelector('.iterations-count')
+    const btnPreviusIteration = document.querySelector('#buton-previus-iteration')
 
     const cellsCreated = []
 
@@ -71,6 +72,8 @@ document.onload = (() => {
     const eventPauseGame = new Event('pauseGame')
 
     btnSetBoard.addEventListener('click', setBoard)
+
+    btnPreviusIteration.addEventListener('click', previusIteration)
 
     sliderBoard.addEventListener('input', () => {
         sliderValueSelected.innerHTML = `Board  <br> ${sliderBoard.value} x ${sliderBoard.value}`
@@ -381,6 +384,15 @@ document.onload = (() => {
                 cellsBoard[i].style.backgroundColor = Game.colorDeadCell
             }
 
+        }
+    }
+
+    function previusIteration() {
+        if (Game.mode === 'pause' && Game.iterationsNum > 0) {
+            Game.iterationsNum -= 1
+            Game.cells.map(cell => cell.life.pop())
+            iterationsCount.innerHTML = `Iterations: ${Game.iterationsNum}`
+            printIteration()
         }
     }
 

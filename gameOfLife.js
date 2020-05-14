@@ -26,7 +26,7 @@ document.onload = (() => {
     }
 
     const Game = {
-        mode: '', // play, pause, end
+        mode: '', // configure, play, pause, end
         sizeBoard: 0,
         totalCells: 0,
         heightAndWidthCell: 0,
@@ -58,7 +58,7 @@ document.onload = (() => {
     const cellsCreated = []
 
     // Initial default values
-    Game.mode = 'pause'
+    Game.mode = 'configure'
     Game.iterationTime = Number(slideIterationTime.value)
     Game.colorAliveCell = inputColorCellAlive.value
     Game.colorDeadCell = inputColorCellDead.value
@@ -84,12 +84,12 @@ document.onload = (() => {
 
     document.addEventListener('boardPrinted', getCells)
 
-    inputColorCellAlive.addEventListener('change', () => { Game.mode === 'pause' ? (Game.colorAliveCell = inputColorCellAlive.value, printIteration()) : null })
+    inputColorCellAlive.addEventListener('change', () => { Game.mode === 'pause' || Game.mode === 'configure' ? (Game.colorAliveCell = inputColorCellAlive.value, printIteration()) : null })
 
-    inputColorCellDead.addEventListener('change', () => { Game.mode === 'pause' ? (Game.colorDeadCell = inputColorCellDead.value, printIteration()) : null })
+    inputColorCellDead.addEventListener('change', () => { Game.mode === 'pause' || Game.mode === 'configure' ? (Game.colorDeadCell = inputColorCellDead.value, printIteration()) : null })
 
     slideIterationTime.addEventListener('input', () => {
-        if (Game.mode === 'pause') {
+        if (Game.mode === 'pause' || Game.mode === 'configure') {
             Game.iterationTime = Number(slideIterationTime.value)
             slideIterationTimeSelected.innerHTML = `⏱ Iteration time: ${Game.iterationTime}ms`
         }
@@ -283,7 +283,7 @@ document.onload = (() => {
         for (let i = 0; i < cellsBoard.length; i++) {
 
             cellsBoard[i].addEventListener('click', () => {
-                if (Game.mode === 'pause') {
+                if (Game.mode === 'configure') {
                     if (!isCellAlive(cellsBoard[i])) {
                         cellsBoard[i].style.backgroundColor = Game.colorAliveCell
                     } else {

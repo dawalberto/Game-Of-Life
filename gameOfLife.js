@@ -54,6 +54,7 @@ document.onload = (() => {
     const slideIterationTimeSelected = document.querySelector('.slide-iteration-time-selected')
     const btnPlayPauseGame = document.querySelector('#button-play-pause-game')
     const iterationsCount = document.querySelector('.iterations-count')
+    const gameMode = document.querySelector('.game-mode')
     const btnPreviusIteration = document.querySelector('#buton-previus-iteration')
 
     const cellsCreated = []
@@ -343,6 +344,8 @@ document.onload = (() => {
         } else {
             document.dispatchEvent(eventPlayGame)
         }
+
+        playPauseRulesAndActions()
     }
 
     function playGame() {
@@ -393,6 +396,28 @@ document.onload = (() => {
             Game.cells.map(cell => cell.life.pop())
             iterationsCount.innerHTML = `Iterations: ${Game.iterationsNum}`
             printIteration()
+        }
+    }
+
+    function playPauseRulesAndActions() {
+        gameMode.innerHTML = `Game mode: ${Game.mode.toUpperCase()}`
+
+        if (Game.mode === 'play') {
+            slideIterationTime.setAttribute('disabled', true)
+            slideIterationTime.setAttribute('title', '⚠️ Iteration tame only can change in pause mode')
+
+            inputColorCellAlive.setAttribute('disabled', true)
+            inputColorCellAlive.setAttribute('title', '⚠️ Alive cell color only can change in pause mode')
+            inputColorCellAlive.setAttribute('disabled', true)
+            inputColorCellDead.setAttribute('title', '⚠️ Dead cell color only can change in pause mode')
+        } else {
+            slideIterationTime.removeAttribute('disabled')
+            slideIterationTime.removeAttribute('title')
+
+            inputColorCellAlive.removeAttribute('disabled')
+            inputColorCellAlive.removeAttribute('title')
+            inputColorCellDead.removeAttribute('disabled')
+            inputColorCellDead.removeAttribute('title')
         }
     }
 

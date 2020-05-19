@@ -118,10 +118,14 @@ body {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.50);
 }
 
-.iterations-count {
+.iterations-count, .game-mode {
     position: absolute;
     top: 0;
     left: 10px;
+}
+
+.game-mode {
+    top: 25px;
 }
 
 .settings {

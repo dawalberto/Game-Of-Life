@@ -408,7 +408,7 @@ document.onload = (() => {
 
             inputColorCellAlive.setAttribute('disabled', true)
             inputColorCellAlive.setAttribute('title', '⚠️ Alive cell color only can change in pause mode')
-            inputColorCellAlive.setAttribute('disabled', true)
+            inputColorCellDead.setAttribute('disabled', true)
             inputColorCellDead.setAttribute('title', '⚠️ Dead cell color only can change in pause mode')
         } else {
             slideIterationTime.removeAttribute('disabled')

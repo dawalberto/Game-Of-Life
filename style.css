@@ -1,11 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap');
 
 :root {
-    --black: #2f3542;
-    --green: #7bed9f;
-    --white: #f5f6fa;
     --background: #dfe4ea;
-    --dead: #2f3640;
+    --alive: #ffffff;
+    --dead: #000000;
 }
 
 * {
@@ -97,14 +95,12 @@ body {
 
 .grid-container-board {
     display: grid;
-    /* background-color: var(--green, green); */
-    /* border: 1px solid var(--black, black); */
     border-width: 0 1px 1px 0;
     margin-top: 250px;
 }
 
 .cell-board {
-    border: 1px solid var(--background, black);
+    border: 1px solid var(--background, #000000);
     border-width: 1px 0 0 1px;
 }
 
@@ -166,11 +162,11 @@ input[type="color"]:focus {
 }
 
 .cell-dead {
-    background-color: var(--dead);
+    background-color: var(--dead, #000000);
 }
 
 .cell-alive {
-    background-color: var(--alive);
+    background-color: var(--alive, #ffffff);
 }
 
 

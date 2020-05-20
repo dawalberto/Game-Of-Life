@@ -80,7 +80,7 @@ document.onload = (() => {
     btnResetGame.addEventListener('click', resetGame)
 
     sliderBoard.addEventListener('input', () => {
-        sliderValueSelected.innerHTML = `Board  <br> ${sliderBoard.value} x ${sliderBoard.value}`
+        sliderValueSelected.innerHTML = `Board  <br> <span style="font-weight: 900;">${sliderBoard.value}</span> x <span style="font-weight: 900;">${sliderBoard.value}</span>`
     })
 
     window.addEventListener('resize', resizeAlert)
@@ -98,7 +98,7 @@ document.onload = (() => {
     slideIterationTime.addEventListener('input', () => {
         if (Game.mode === 'pause' || Game.mode === 'configure') {
             Game.iterationTime = Number(slideIterationTime.value)
-            slideIterationTimeSelected.innerHTML = `⏱ Iteration time: ${Game.iterationTime}ms`
+            slideIterationTimeSelected.innerHTML = `⏱ Iteration time: <span class="information-game">${Game.iterationTime}ms</span>`
         }
     })
 
@@ -131,7 +131,7 @@ document.onload = (() => {
     function printBoard() {
         console.log('printing board...👨🏻‍🎨⏳')
 
-        informationBoardSize.innerHTML = `Board ${sliderBoard.value} x ${sliderBoard.value}`
+        informationBoardSize.innerHTML = `Board: <span class="information-game">${sliderBoard.value} x ${sliderBoard.value}</span>`
 
         const style = document.createElement('style');
         style.innerHTML = `
@@ -377,7 +377,7 @@ document.onload = (() => {
         console.log('nextIteration')
 
         Game.iterationsNum += 1
-        iterationsCount.innerHTML = `Iterations: ${Game.iterationsNum}`
+        iterationsCount.innerHTML = `Iterations: <span class="information-game">${Game.iterationsNum}</span>`
     }
 
     function printIteration() {
@@ -396,13 +396,13 @@ document.onload = (() => {
         if (Game.mode === 'pause' && Game.iterationsNum > 0) {
             Game.iterationsNum -= 1
             Game.cells.map(cell => cell.life.pop())
-            iterationsCount.innerHTML = `Iterations: ${Game.iterationsNum}`
+            iterationsCount.innerHTML = `Iterations: <span class="information-game">${Game.iterationsNum}</span>`
             printIteration()
         }
     }
 
     function playPauseRulesAndActions() {
-        gameMode.innerHTML = `Game mode: ${Game.mode.toUpperCase()}`
+        gameMode.innerHTML = `Game mode: <span class="information-game">${Game.mode.toUpperCase()}</span>`
 
         if (Game.mode === 'play') {
             slideIterationTime.setAttribute('disabled', true)
@@ -445,9 +445,9 @@ document.onload = (() => {
             inputColorCellDead.value = Game.colorDeadCell
             slideIterationTime.value = Game.iterationTime
 
-            iterationsCount.innerHTML = `Iterations: ${Game.iterationsNum}`
-            gameMode.innerHTML = `Game mode: ${Game.mode.toUpperCase()}`
-            slideIterationTimeSelected.innerHTML = `⏱ Iteration time: ${Game.iterationTime}ms`
+            iterationsCount.innerHTML = `Iterations: <span class="information-game">${Game.iterationsNum}</span>`
+            gameMode.innerHTML = `Game mode: <span class="information-game">${Game.mode.toUpperCase()}</span>`
+            slideIterationTimeSelected.innerHTML = `⏱ Iteration time: <span class="information-game">${Game.iterationTime}ms</span>`
 
             getCells()
             printIteration()            

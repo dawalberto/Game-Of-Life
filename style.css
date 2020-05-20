@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap');
 
 :root {
-    --background: #dfe4ea;
+    --background: #5bc0eb;
     --alive: #ffffff;
     --dead: #000000;
 }
@@ -14,6 +14,7 @@
 body {
     margin: 0;
     padding: 0;
+    background-color: var(--background, #ffffff);
 }
 
 .flex-container {
@@ -77,6 +78,7 @@ body {
     width: 100%;
     background-color: var(--background);
     display: none;
+    background: none;
 }
 
 .flex-container-settings {
@@ -84,7 +86,6 @@ body {
     align-items: center;
     justify-content: start;
     width: 100%;
-    background-color: var(--background);
     padding-top: 50px;
 }
 
@@ -96,7 +97,7 @@ body {
 .grid-container-board {
     display: grid;
     border-width: 0 1px 1px 0;
-    margin-top: 250px;
+    margin-top: 200px;
 }
 
 .cell-board {
@@ -114,7 +115,7 @@ body {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.50);
 }
 
-.iterations-count, .game-mode {
+.iterations-count, .game-mode, .information-board-size {
     position: absolute;
     top: 0;
     left: 10px;
@@ -122,6 +123,10 @@ body {
 
 .game-mode {
     top: 25px;
+}
+
+.iterations-count {
+    top: 50px;
 }
 
 .settings {
@@ -167,6 +172,17 @@ input[type="color"]:focus {
 
 .cell-alive {
     background-color: var(--alive, #ffffff);
+}
+
+.information-game {
+    font-weight: bold;
+    color: #2d3436;
+}
+
+.slide-iteration-time-selected {
+    text-align: center;
+    display: inline-block;
+    width: 100%;
 }
 
 

@@ -56,6 +56,7 @@ document.onload = (() => {
     const iterationsCount = document.querySelector('.iterations-count')
     const gameMode = document.querySelector('.game-mode')
     const btnPreviusIteration = document.querySelector('#buton-previus-iteration')
+    const btnResetGame = document.querySelector('#button-reset-game')
 
     const cellsCreated = []
 
@@ -75,6 +76,8 @@ document.onload = (() => {
     btnSetBoard.addEventListener('click', setBoard)
 
     btnPreviusIteration.addEventListener('click', previusIteration)
+
+    btnResetGame.addEventListener('click', resetGame)
 
     sliderBoard.addEventListener('input', () => {
         sliderValueSelected.innerHTML = `Board  <br> ${sliderBoard.value} x ${sliderBoard.value}`
@@ -142,7 +145,6 @@ document.onload = (() => {
         for(let i = 0; i < Game.totalCells; i++) {
             let cell = document.createElement('span');
             cell.classList.add(`cell-${i + 1}`, 'cell-board', 'cell-dead');
-            // cell.textContent = i + 1
 
             board.appendChild(cell)
         }
@@ -410,6 +412,9 @@ document.onload = (() => {
             inputColorCellAlive.setAttribute('title', '⚠️ Alive cell color only can change in pause mode')
             inputColorCellDead.setAttribute('disabled', true)
             inputColorCellDead.setAttribute('title', '⚠️ Dead cell color only can change in pause mode')
+
+            btnResetGame.setAttribute('disabled', true)
+            btnResetGame.setAttribute('title', '⚠️ Reset game only can do on pause mode')
         } else {
             slideIterationTime.removeAttribute('disabled')
             slideIterationTime.removeAttribute('title')
@@ -418,7 +423,36 @@ document.onload = (() => {
             inputColorCellAlive.removeAttribute('title')
             inputColorCellDead.removeAttribute('disabled')
             inputColorCellDead.removeAttribute('title')
+
+            btnResetGame.removeAttribute('disabled')
+            btnResetGame.removeAttribute('title')
         }
     }
+
+    function resetGame() {
+        if (Game.mode === 'pause' || Game.mode === 'configure') {
+            Game.mode = 'configure'
+            Game.iterationTime = 500
+            Game.colorAliveCell = '#c23616'
+            Game.colorDeadCell = '#2f3640'
+            Game.iterationsNum =  0
+            Game.iterations =  ''
+            Game.cells = []
+
+            cellsCreated.length = 0
+
+            inputColorCellAlive.value = Game.colorAliveCell
+            inputColorCellDead.value = Game.colorDeadCell
+            slideIterationTime.value = Game.iterationTime
+
+            iterationsCount.innerHTML = `Iterations: ${Game.iterationsNum}`
+            gameMode.innerHTML = `Game mode: ${Game.mode.toUpperCase()}`
+            slideIterationTimeSelected.innerHTML = `⏱ Iteration time: ${Game.iterationTime}ms`
+
+            getCells()
+            printIteration()            
+        }
+    }
+
 
 })()

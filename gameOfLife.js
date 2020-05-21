@@ -415,6 +415,9 @@ document.onload = (() => {
 
             btnResetGame.setAttribute('disabled', true)
             btnResetGame.setAttribute('title', '⚠️ Reset game only can do on pause mode')
+
+            btnPreviusIteration.setAttribute('disabled', true)
+            btnPreviusIteration.setAttribute('title', '⚠️ Previus iteration only can do on pause mode')
         } else {
             slideIterationTime.removeAttribute('disabled')
             slideIterationTime.removeAttribute('title')
@@ -426,6 +429,9 @@ document.onload = (() => {
 
             btnResetGame.removeAttribute('disabled')
             btnResetGame.removeAttribute('title')
+
+            btnPreviusIteration.removeAttribute('disabled')
+            btnPreviusIteration.removeAttribute('title')
         }
     }
 

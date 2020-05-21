@@ -378,6 +378,10 @@ document.onload = (() => {
 
         Game.iterationsNum += 1
         iterationsCount.innerHTML = `Iterations: <span class="information-game">${Game.iterationsNum}</span>`
+
+        if (isGameEnd()) {
+            endGame()
+        }
     }
 
     function printIteration() {
@@ -436,7 +440,7 @@ document.onload = (() => {
     }
 
     function resetGame() {
-        if (Game.mode === 'pause' || Game.mode === 'configure') {
+        if (Game.mode === 'pause' || Game.mode === 'configure' || Game.mode === 'end') {
             Game.mode = 'configure'
             Game.iterationTime = 500
             Game.colorAliveCell = '#FFFFFF'
@@ -460,5 +464,21 @@ document.onload = (() => {
         }
     }
 
+    function isGameEnd() {
+        return Game.cells.every(cell => cell.life[Game.iterationsNum] === cell.life[Game.iterationsNum - 1])
+    }
+
+    function endGame() {        
+        clearInterval(Game.iterations)
+        Game.mode = 'end'
+        gameMode.innerHTML = `Game mode: <span class="information-game">${Game.mode.toUpperCase()}</span>`
+        
+        btnResetGame.removeAttribute('disabled')
+        btnResetGame.removeAttribute('title')
+        btnPreviusIteration.removeAttribute('disabled')
+        btnPreviusIteration.removeAttribute('title')
+        
+        console.log('End Game')
+    }
 
 })()

@@ -2,8 +2,8 @@
 
 :root {
     --background: #5bc0eb;
-    --alive: #ffffff;
-    --dead: #000000;
+    --alive: #000000;
+    --dead: #ffffff;
 }
 
 * {

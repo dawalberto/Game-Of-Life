@@ -452,8 +452,8 @@ document.onload = (() => {
         if (Game.mode === 'pause' || Game.mode === 'configure' || Game.mode === 'end') {
             Game.mode = 'configure'
             Game.iterationTime = 200
-            Game.colorAliveCell = '#FFFFFF'
-            Game.colorDeadCell = '#000000'
+            Game.colorAliveCell = '#000000'
+            Game.colorDeadCell = '#FFFFFF'
             Game.iterationsNum =  0
             Game.iterations =  ''
             Game.cells = []

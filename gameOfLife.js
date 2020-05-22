@@ -57,9 +57,10 @@ document.onload = (() => {
     const gameMode = document.querySelector('.game-mode')
     const btnPreviusIteration = document.querySelector('#buton-previus-iteration')
     const btnResetGame = document.querySelector('#button-reset-game')
-    const alert = document.querySelector('.alert')
+    const alertResize = document.querySelector('.alert')
 
     const cellsCreated = []
+    const isMobile = (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1) ? true : false
 
     // Initial default values
     Game.mode = 'configure'
@@ -84,9 +85,9 @@ document.onload = (() => {
         sliderValueSelected.innerHTML = `Board  <br> <span style="font-weight: 900;">${sliderBoard.value}</span> x <span style="font-weight: 900;">${sliderBoard.value}</span>`
     })
 
-    window.addEventListener('resize', () => Game.cells.length > 0 ? alert.style.display = 'block' : '')
+    window.addEventListener('resize', () => flexSetBoard.style.display === 'none' && !isMobile ? alertResize.style.display = 'block' : '')
 
-    alert.addEventListener('click', () => alert.style.display = 'none')
+    alertResize.addEventListener('click', () => alertResize.style.display = 'none')
 
     document.addEventListener('boardSetted', printBoard)
 

@@ -376,6 +376,10 @@ document.onload = (() => {
 
         Game.iterationsNum += 1
         iterationsCount.innerHTML = `Iterations: <span class="information-game">${Game.iterationsNum}</span>`
+
+        if (isGameEnd()) {
+            endGame()
+        }
     }
 
     function printIteration() {
@@ -413,6 +417,9 @@ document.onload = (() => {
 
             btnResetGame.setAttribute('disabled', true)
             btnResetGame.setAttribute('title', '⚠️ Reset game only can do on pause mode')
+
+            btnPreviusIteration.setAttribute('disabled', true)
+            btnPreviusIteration.setAttribute('title', '⚠️ Previus iteration only can do on pause mode')
         } else {
             slideIterationTime.removeAttribute('disabled')
             slideIterationTime.removeAttribute('title')
@@ -424,11 +431,14 @@ document.onload = (() => {
 
             btnResetGame.removeAttribute('disabled')
             btnResetGame.removeAttribute('title')
+
+            btnPreviusIteration.removeAttribute('disabled')
+            btnPreviusIteration.removeAttribute('title')
         }
     }
 
     function resetGame() {
-        if (Game.mode === 'pause' || Game.mode === 'configure') {
+        if (Game.mode === 'pause' || Game.mode === 'configure' || Game.mode === 'end') {
             Game.mode = 'configure'
             Game.iterationTime = 200
             Game.colorAliveCell = '#FFFFFF'
@@ -452,5 +462,21 @@ document.onload = (() => {
         }
     }
 
+    function isGameEnd() {
+        return Game.cells.every(cell => cell.life[Game.iterationsNum] === cell.life[Game.iterationsNum - 1])
+    }
+
+    function endGame() {        
+        clearInterval(Game.iterations)
+        Game.mode = 'end'
+        gameMode.innerHTML = `Game mode: <span class="information-game">${Game.mode.toUpperCase()}</span>`
+        
+        btnResetGame.removeAttribute('disabled')
+        btnResetGame.removeAttribute('title')
+        btnPreviusIteration.removeAttribute('disabled')
+        btnPreviusIteration.removeAttribute('title')
+        
+        console.log('End Game')
+    }
 
 })()

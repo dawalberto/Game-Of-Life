@@ -85,8 +85,6 @@ document.onload = (() => {
 
     window.addEventListener('resize', resizeAlert)
 
-    flexSetBoard.addEventListener('transitionend', boardSetted)
-
     document.addEventListener('boardSetted', printBoard)
 
     document.addEventListener('boardPrinted', getCells)
@@ -111,7 +109,7 @@ document.onload = (() => {
 
     // Functions
     function boardSetted() {
-        this.style.display = 'none'
+        flexSetBoard.style.display = 'none'
         document.dispatchEvent(eventBoardSetted)
     }
 
@@ -125,7 +123,7 @@ document.onload = (() => {
         console.log(`board 👉 ${Game.sizeBoard} x ${Game.sizeBoard}`)
         console.log(`cells 👉 ${Game.heightAndWidthCell}px x ${Game.heightAndWidthCell}px`)
 
-        flexSetBoard.classList.add('fade-out')
+        boardSetted();
     }
 
     function printBoard() {

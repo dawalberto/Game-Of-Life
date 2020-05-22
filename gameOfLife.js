@@ -57,6 +57,7 @@ document.onload = (() => {
     const gameMode = document.querySelector('.game-mode')
     const btnPreviusIteration = document.querySelector('#buton-previus-iteration')
     const btnResetGame = document.querySelector('#button-reset-game')
+    const alert = document.querySelector('.alert')
 
     const cellsCreated = []
 
@@ -83,7 +84,9 @@ document.onload = (() => {
         sliderValueSelected.innerHTML = `Board  <br> <span style="font-weight: 900;">${sliderBoard.value}</span> x <span style="font-weight: 900;">${sliderBoard.value}</span>`
     })
 
-    window.addEventListener('resize', resizeAlert)
+    window.addEventListener('resize', () => Game.cells.length > 0 ? alert.style.display = 'block' : '')
+
+    alert.addEventListener('click', () => alert.style.display = 'none')
 
     document.addEventListener('boardSetted', printBoard)
 
@@ -275,12 +278,6 @@ document.onload = (() => {
                 cell.neighbors.push(cell.num + (Game.sizeBoard + 1))
                 break
         }
-    }
-
-    function resizeAlert() {
-        // cambiar por un popup
-        console.log('Cuidado! el tamaño del tablero se ha calculado en base al tamaño de tu navegador, si cambias de tamaño la ventana asegurate de recargar la página para una correcta visualización ;)')
-        console.log(Game)
     }
 
     function changeLifeCellOnClick() {

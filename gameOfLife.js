@@ -430,7 +430,7 @@ document.onload = (() => {
     function resetGame() {
         if (Game.mode === 'pause' || Game.mode === 'configure') {
             Game.mode = 'configure'
-            Game.iterationTime = 500
+            Game.iterationTime = 200
             Game.colorAliveCell = '#FFFFFF'
             Game.colorDeadCell = '#000000'
             Game.iterationsNum =  0

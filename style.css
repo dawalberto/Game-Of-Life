@@ -89,11 +89,6 @@ body {
     padding-top: 50px;
 }
 
-.fade-out {
-    opacity: 0;
-    transition: opacity 800ms;
-}
-
 .grid-container-board {
     display: grid;
     border-width: 0 1px 1px 0;

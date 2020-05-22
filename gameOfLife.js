@@ -395,11 +395,18 @@ document.onload = (() => {
     }
 
     function previusIteration() {
-        if (Game.mode === 'pause' && Game.iterationsNum > 0) {
+        if (Game.iterationsNum > 0 && (Game.mode === 'pause' || Game.mode === 'end')) {
+            btnPlayPauseGame.removeAttribute('disabled')
             Game.iterationsNum -= 1
             Game.cells.map(cell => cell.life.pop())
             iterationsCount.innerHTML = `Iterations: <span class="information-game">${Game.iterationsNum}</span>`
+            btnPlayPauseGame.innerHTML = 'PLAY'
             printIteration()
+
+            if (Game.iterationsNum === 0) {
+                btnPreviusIteration.setAttribute('disabled', true)
+                btnPreviusIteration.setAttribute('title', '⚠️ Previus iteration only can do on pause mode')
+            }
         }
     }
 
@@ -407,6 +414,8 @@ document.onload = (() => {
         gameMode.innerHTML = `Game mode: <span class="information-game">${Game.mode.toUpperCase()}</span>`
 
         if (Game.mode === 'play') {
+            btnPlayPauseGame.innerHTML = 'PAUSE'
+
             slideIterationTime.setAttribute('disabled', true)
             slideIterationTime.setAttribute('title', '⚠️ Iteration tame only can change in pause mode')
 
@@ -419,8 +428,10 @@ document.onload = (() => {
             btnResetGame.setAttribute('title', '⚠️ Reset game only can do on pause mode')
 
             btnPreviusIteration.setAttribute('disabled', true)
-            btnPreviusIteration.setAttribute('title', '⚠️ Previus iteration only can do on pause mode')
+            btnPreviusIteration.setAttribute('title', '⚠️ Previus iteration only can do on pause or end mode')
         } else {
+            btnPlayPauseGame.innerHTML = 'PLAY'
+
             slideIterationTime.removeAttribute('disabled')
             slideIterationTime.removeAttribute('title')
 
@@ -457,6 +468,20 @@ document.onload = (() => {
             gameMode.innerHTML = `Game mode: <span class="information-game">${Game.mode.toUpperCase()}</span>`
             slideIterationTimeSelected.innerHTML = `⏱ Iteration time: <span class="information-game">${Game.iterationTime}ms</span>`
 
+            slideIterationTime.removeAttribute('disabled')
+            slideIterationTime.removeAttribute('title')
+
+            inputColorCellAlive.removeAttribute('disabled')
+            inputColorCellAlive.removeAttribute('title')
+            inputColorCellDead.removeAttribute('disabled')
+            inputColorCellDead.removeAttribute('title')
+
+            btnPreviusIteration.setAttribute('disabled', true)
+            btnPreviusIteration.setAttribute('title', '⚠️ Previus iteration only can do on pause mode')
+
+            btnPlayPauseGame.innerHTML = 'PLAY'
+            btnPlayPauseGame.removeAttribute('disabled')
+            
             getCells()
             printIteration()            
         }
@@ -471,6 +496,7 @@ document.onload = (() => {
         Game.mode = 'end'
         gameMode.innerHTML = `Game mode: <span class="information-game">${Game.mode.toUpperCase()}</span>`
         
+        btnPlayPauseGame.setAttribute('disabled', true)
         btnResetGame.removeAttribute('disabled')
         btnResetGame.removeAttribute('title')
         btnPreviusIteration.removeAttribute('disabled')

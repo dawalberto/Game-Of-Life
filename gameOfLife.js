@@ -333,7 +333,6 @@ document.onload = (() => {
         }
 
         return false
-
     }
 
     function playPauseGame() {
@@ -369,15 +368,15 @@ document.onload = (() => {
             }
         })
 
-        printIteration()
-        console.log('nextIteration')
-
         Game.iterationsNum += 1
-        iterationsCount.innerHTML = `Iterations: <span class="information-game">${Game.iterationsNum}</span>`
 
         if (isGameEnd()) {
             endGame()
+            return
         }
+
+        printIteration()
+        iterationsCount.innerHTML = `Iterations: <span class="information-game">${Game.iterationsNum}</span>`
     }
 
     function printIteration() {

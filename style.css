@@ -55,6 +55,8 @@ body {
     padding: 7px 20px;
     outline: none;
     cursor: pointer;
+    border-radius: 0;
+    background-color: #ffffff;
 }
 
 .button:hover {
@@ -205,6 +207,11 @@ input[type="color"]:focus {
     text-transform: uppercase;
     letter-spacing: 20px;
     font-weight: 200;
+}
+
+.title-game {
+    text-transform: uppercase;
+    letter-spacing: 15px;
 }
 
 

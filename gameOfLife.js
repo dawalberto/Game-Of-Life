@@ -1,6 +1,20 @@
 document.onload = (() => {
 
-    class Cell {
+    // class doesn't work on iPad and iPhone
+    // class Cell {
+
+    //     constructor(num, type = 'm') {
+    //         this.num = num
+    //         this.type = type
+    //         cellsCreated.push(num)
+    //     }
+
+    //     life = [false]
+    //     neighbors = []
+
+    // }
+
+    function Cell(num, type = 'm') {
         /*
         Types 
             eu Edge Up
@@ -14,15 +28,11 @@ document.onload = (() => {
             m Middle
         */
 
-        constructor(num, type = 'm') {
-            this.num = num
-            this.type = type
-            cellsCreated.push(num)
-        }
-
-        life = [false]
-        neighbors = []
-
+        this.num = num
+        this.type = type
+        this.life = [false]
+        this.neighbors = []
+        cellsCreated.push(num)
     }
 
     const Game = {

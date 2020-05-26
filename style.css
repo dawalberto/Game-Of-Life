@@ -29,6 +29,7 @@ body {
     align-items: center;
     height: 100vh;
     width: 100%;
+    padding: 10px;
 }
 
 .flex-container-slider-board {
@@ -212,6 +213,7 @@ input[type="color"]:focus {
 .title-game {
     /* text-transform: uppercase; */
     letter-spacing: 15px;
+    text-align: center;
 }
 
 

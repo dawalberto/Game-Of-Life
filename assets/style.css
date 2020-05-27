@@ -63,12 +63,13 @@ body {
     padding: 7px 20px;
     outline: none;
     cursor: pointer;
-    border: 1px solid #000000;
+    border: 1px solid var(--black, #000000);
     border-radius: 0;
     background-color: #ffffff;
     -webkit-box-shadow: 7px 6px 0px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 7px 6px 0px 0px rgba(0,0,0,0.75);
     box-shadow: 7px 6px 0px 0px rgba(0,0,0,0.75);
+    user-select: none;
 }
 
 .button:active {
@@ -190,33 +191,6 @@ input[type="color"]:focus {
     width: 100%;
 }
 
-.alert {
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    cursor: pointer;
-    background-color: #dfe6e9;
-    opacity: .75;
-    display: none;
-    top: 0;
-}
-  
-.alert-msg {  
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.alert-msg h1 {
-    text-align: center;
-    padding: 20px;
-    border-radius: 5px;
-    text-transform: uppercase;
-    letter-spacing: 20px;
-    font-weight: 200;
-}
-
 .title-game {
     transform: translateY(-80%);
     letter-spacing: 15px;
@@ -224,7 +198,7 @@ input[type="color"]:focus {
 }
 
 .title-char {
-    animation-delay: 5s !important;
+    animation-delay: 3s !important;
 }
 
 .title-char:nth-child(1), 
@@ -302,7 +276,7 @@ hr {
     border-radius: 0;
 }
 
-
+/* range style from range.css */
 input[type=range] {
     -webkit-appearance: none;
     margin: 13.8px 0;
@@ -398,6 +372,77 @@ input[type=range]:focus::-ms-fill-upper {
     background: #3379b5;
 }
 
+.alert-resize h1 {
+    text-align: center;
+    border-radius: 5px;
+    text-transform: uppercase;
+    letter-spacing: 20px;
+    font-weight: 200;
+}
+
+.instructions-page, .alert-resize-page {
+    background-color: rgba(45, 52, 54, .9);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    display: none;
+    z-index: 5;
+}
+  
+.instructions, .alert-resize {
+    background-color: #5bc0eb;
+    padding: 25px;
+    position: absolute;
+    width: 95%;
+    height: 90%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: scroll;
+    border: 1px solid var(--black, #000000);
+    -webkit-box-shadow: 7px 7px 0px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 7px 7px 0px 0px rgba(0,0,0,0.75);
+    box-shadow: 7px 7px 0px 0px rgba(0,0,0,0.75);
+}
+
+.alert-resize {
+    height: 40%;
+}
+  
+.instructions h1 {
+    text-align: center;
+}
+  
+.close-instructions, .close-alert-resize {
+    position: absolute;
+    right: 30px;
+    top: 25px;
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid var(--black, #000000);
+    background-color: #d63031;
+    -webkit-box-shadow: 7px 6px 0px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 7px 6px 0px 0px rgba(0,0,0,0.75);
+    box-shadow: 7px 6px 0px 0px rgba(0,0,0,0.75);
+}
+  
+.close-instructions:active {
+    transform: translate(7px, 7px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+}
+
+.font-italic {
+    font-style: italic;
+}
+
+.instructions a {
+    color: #ffffff;
+    /* text-decoration: none; */
+}
 
 @media screen and (min-width: 680px) {
     .flex-container-board-and-settings {
@@ -413,4 +458,9 @@ input[type=range]:focus::-ms-fill-upper {
     .grid-container-board {
         margin-top: 25px;
     }
+
+    .instructions, .alert-resize {
+        width: 50%;
+        height: 70;
+      }
 }

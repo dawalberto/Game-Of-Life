@@ -19,6 +19,50 @@
         <button id="button-set-board" class="button">set</button>
     </div>
 
+    <div class="instructions-page">
+        <div class="instructions">
+            <span class="close-instructions"></span>
+            <h1>Game, Rules and Instructions</h1>
+            <h2>Start Instructions</h2>
+            <p>To start game simply do click on some cells to alive/dead them, when you get the initial pattern that wish click in play button.</p>
+            <p>To reload board, back to previus iteration, change the alive/dead cell color or iteration time the game must be in PAUSE or CONFIGURE mode.</p>
+            <h2>Game and Rules</h2>
+            <p>According to Wikipedia:</p>
+            <p class="font-italic">"The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970. 
+                It is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further input. 
+                One interacts with the Game of Life by creating an initial configuration and observing how it evolves. 
+                It is Turing complete and can simulate a universal constructor or any other Turing machine.</p>
+            <h3>Rules</h3>
+            <p>The universe of the Game of Life is an infinite, two-dimensional orthogonal grid of square cells(but here due to the space of the screens the board is finite and user selectable), 
+                each of which is in one of two possible states, live or dead, (or populated and unpopulated, respectively). 
+                Every cell interacts with its eight neighbours, which are the cells that are horizontally, vertically, or diagonally adjacent.</p>
+            <ol>
+                <li>At each step in time, the following transitions occur:</li>
+                <li>Any live cell with fewer than two live neighbours dies, as if by underpopulation.</li>
+                <li>Any live cell with two or three live neighbours lives on to the next generation.</li>
+                <li>Any live cell with more than three live neighbours dies, as if by overpopulation.</li>
+                <li>Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.</li>
+            </ol>
+            <p>These rules, which compare the behavior of the automaton to real life, can be condensed into the following:</p>
+            <ul>
+                <li>Any live cell with two or three live neighbours survives.</li>
+                <li>Any dead cell with three live neighbours becomes a live cell.</li>
+                <li>All other live cells die in the next generation. Similarly, all other dead cells stay dead.</li>
+            </ul>    
+            <p>The initial pattern constitutes the seed of the system. The first generation is created by applying the above rules simultaneously to 
+                every cell in the seed; births and deaths occur simultaneously, and the discrete moment at which this happens is sometimes called a tick. 
+                Each generation is a pure function of the preceding one. The rules continue to be applied repeatedly to create further generations.</p>
+        </div>
+    </div>
+
+    <div class="alert-resize-page">
+        <div class="alert-resize">
+            <span class="close-alert-resize"></span>
+            <h1>attention!</h1>
+            <p>The size of board was calculated in base the size of your screen. If you resize the screen and don't see correctly the board ensure to reload the page to see it fine.</p>
+        </div>
+    </div>
+
     <div class="flex-container flex-container-board-and-settings">
         <div class="information-board-size"></div>
         <div class="game-mode">Game mode: <span class="information-game">CONFIGURE</span></div>
@@ -49,12 +93,7 @@
         </div>
         <div class="grid-container-board"></div>
     </div>
-    <div class="alert">
-        <div class="alert-msg">
-          <h1>attention!</h1>
-          <p>The size of board was calculated in base the size of your screen. If you resize the screen and don't see correctly the board ensure to reload the page to see it fine.</p>
-        </div>
-    </div>
+
     <footer>
         <a href="https://twitter.com/daw_alberto" target="_blank">Twitter</a>
         <a href="https://github.com/dawalberto/Game-Of-Life" target="_blank">GitHub</a>

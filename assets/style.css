@@ -224,89 +224,61 @@ input[type="color"]:focus {
 }
 
 .title-char {
-    visibility: hidden;
-    animation: appearDisappear 2s forwards 2;
+    animation-delay: 5s !important;
 }
 
-@keyframes appearDisappear {
-    50% {
-        visibility: hidden;
-    }
-    100% {
-        visibility: visible;
-    }
-}
-
-.title-char:nth-child(1) {
-    animation-delay: 0s;
-}
-
-.title-char:nth-child(2) {
-    animation-delay: 0s;
-}
-
-.title-char:nth-child(3) {
-    animation-delay: 2s;
-}
-
-.title-char:nth-child(4) {
-    animation-delay: 3s;
-}
-
-.title-char:nth-child(5) {
-    animation-delay: 1s;
-}
-
-.title-char:nth-child(6) {
-    animation-delay: 3s;
-}
-
-.title-char:nth-child(7) {
-    animation-delay: 2s;
-}
-
-.title-char:nth-child(8) {
-    animation-delay: 3s;
-}
-
-.title-char:nth-child(10) {
-    animation-delay: 1s;
-}
-
-.title-char:nth-child(11) {
-    animation-delay: 2s;
-}
-
-.title-char:nth-child(12) {
-    animation-delay: 4s;
-}
-
-.title-char:nth-child(13) {
-    animation-delay: 3s;
-}
-
-.title-char:nth-child(15) {
-    animation-delay: 2s;
-}
-
-.title-char:nth-child(16) {
-    animation-delay: 1s;
-}
-
-.title-char:nth-child(18) {
-    animation-delay: 1s;
-}
-
-.title-char:nth-child(19) {
-    animation-delay: 3s;
-}
-
-.title-char:nth-child(20) {
-    animation-delay: 3s;
-}
-
+.title-char:nth-child(1), 
+.title-char:nth-child(2), 
+.title-char:nth-child(5), 
+.title-char:nth-child(7), 
+.title-char:nth-child(8),
+.title-char:nth-child(10), 
+.title-char:nth-child(12), 
+.title-char:nth-child(16), 
+.title-char:nth-child(18), 
 .title-char:nth-child(21) {
-    animation-delay: 1s;
+    color: var(--black, #2d3436);
+    animation: dead 3s forwards 10;
+}
+
+.title-char:nth-child(3), 
+.title-char:nth-child(4), 
+.title-char:nth-child(6),  
+.title-char:nth-child(11), 
+.title-char:nth-child(13), 
+.title-char:nth-child(15), 
+.title-char:nth-child(19), 
+.title-char:nth-child(20) {
+    color: #9ae7ff;
+    animation: alive 3s forwards 10;
+}
+
+@keyframes alive {
+    0% {
+        color: #9ae7ff;
+    }
+
+    50% {
+        color: var(--black, #2d3436);
+    }
+
+    100% {
+        color: #9ae7ff;
+    }
+}
+
+@keyframes dead {
+    0% {
+        color: var(--black, #2d3436);
+    }
+
+    50% {
+        color: #9ae7ff;
+    }
+
+    100% {
+        color: var(--black, #2d3436);
+    }
 }
 
 footer {

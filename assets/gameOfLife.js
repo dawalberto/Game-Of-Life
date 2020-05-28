@@ -140,14 +140,14 @@ document.onload = (() => {
         Game.heightAndWidthCell = Math.round((window.innerHeight - 50) / Game.sizeBoard) < Math.round((window.innerWidth - 50) / Game.sizeBoard) ?
         Math.round((window.innerHeight - 50) / Game.sizeBoard) : Math.round((window.innerWidth - 50) / Game.sizeBoard)
 
-        console.log(`board 👉 ${Game.sizeBoard} x ${Game.sizeBoard}`)
-        console.log(`cells 👉 ${Game.heightAndWidthCell}px x ${Game.heightAndWidthCell}px`)
+        // console.log(`board 👉 ${Game.sizeBoard} x ${Game.sizeBoard}`)
+        // console.log(`cells 👉 ${Game.heightAndWidthCell}px x ${Game.heightAndWidthCell}px`)
 
         boardSetted();
     }
 
     function printBoard() {
-        console.log('printing board...👨🏻‍🎨⏳')
+        // console.log('printing board...👨🏻‍🎨⏳')
 
         informationBoardSize.innerHTML = `Board: <span class="information-game">${sliderBoard.value} x ${sliderBoard.value}</span>`
 
@@ -171,24 +171,24 @@ document.onload = (() => {
 
         changeLifeCellOnClick()
 
-        console.log('done!👨🏻‍🎨')
+        // console.log('done!👨🏻‍🎨')
         document.dispatchEvent(eventBoardPrinted)
     }
 
     function getCells() {
-        console.log('getting type of cells...🦠⏳')
+        // console.log('getting type of cells...🦠⏳')
 
         getCornerCells()
         getEdgeCells()
         getMiddleCells()
 
-        console.log('done! 🦠')
-        console.log('getting neighbors of cells...🏘⏳')
+        // console.log('done! 🦠')
+        // console.log('getting neighbors of cells...🏘⏳')
 
         Game.cells.map(cell => getNeighbors(cell))
 
-        console.log('done! 🏘')
-        console.log(`cells 👉 ${Game.cells.length}`)
+        // console.log('done! 🏘')
+        // console.log(`cells 👉 ${Game.cells.length}`)
     }
 
     function getEdgeCells() {
@@ -365,14 +365,14 @@ document.onload = (() => {
         Game.mode = 'play'
         
         Game.iterations = setInterval(nextIteration, Game.iterationTime) 
-        console.log('play')
+        // console.log('play')
     }
 
     function pauseGame() {
         Game.mode = 'pause'
         
         clearInterval(Game.iterations)
-        console.log('pause')
+        // console.log('pause')
     }
 
     function nextIteration() {
@@ -515,7 +515,7 @@ document.onload = (() => {
         btnPreviusIteration.removeAttribute('disabled')
         btnPreviusIteration.removeAttribute('title')
         
-        console.log('End Game')
+        // console.log('End Game')
     }
 
 })()
